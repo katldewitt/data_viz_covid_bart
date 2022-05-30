@@ -4,7 +4,7 @@ Goal: Interactively visualize how COVID Cases at the county level impacted BART 
 
 ## Data Source #1 COVID Data
 
-**Url:** [CA CDPH](https://www.buzzfeed.com/donnad/9-pokemon-inspired-high-fashion-designs?s=mobile)
+**Url:** [CA CDPH](https://data.ca.gov/dataset/covid-19-time-series-metrics-by-county-and-state)
 
 **Key Data Documentation Notes:**
 - "Data is from the California COVID-19 State Dashboard at https://covid19.ca.gov/state-dashboard/"
