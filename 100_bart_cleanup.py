@@ -26,20 +26,24 @@
         cnt_exits              - int representing number of entries to entry station on date
 '''
 
-import numpy
+import datetime as dt
+import pandas as pd
+import io_helper as io_hlp
 
-def read_data():
-    pass
 
 def add_county():
     pass
 
-def save_data():
+def rollup_data(data):
     pass
 
+def clean_data(data):
+    pass
+
+
 def main():
-    read_data()
-    add_county()
-    save_data()
+    bart_data = io_hlp.read_data("TODO.csv")
+    bart_data = clean_data(bart_data)
+    io_hlp.save_data(bart_data, "100_ridership_data.csv")
 
 main()
