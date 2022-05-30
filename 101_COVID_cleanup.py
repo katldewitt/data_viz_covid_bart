@@ -22,6 +22,7 @@
 
 import datetime as dt
 import pandas as pd
+import io_helper as io_hlp
 
 ###Set up key variables##
 #The counties with a BART Station
@@ -61,9 +62,11 @@ def clean_data(data):
     #3.2 EDA: Are there any invalid dates?
     num_na_dates = data_cleaned['date'].isna().count()
     if num_na_dates > 0:
-        print(f"Found {num_na_dates} dates with NA's. Removing")
+        print(f"Found {num_na_dates} dates with NA's. Removing these rows.")
         #3.2 Genearal: Remove NaN dates, which are culmative totals
         data_cleaned = data_cleaned[data_cleaned['date'].notna()]
+        num_na_dates = data_cleaned['date'].isna().count()
+        assert num_na_dates == 0
 
     #4.2 Meet column name specifications
     data_cleaned = data_cleaned.rename(columns={"area": "county"} )
