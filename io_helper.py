@@ -4,10 +4,13 @@
 import datetime as dt
 import pandas as pd
 
-def read_data(file_name):
+def read_data(file_name, header = True):
     data = None
     try:
-        data = pd.read_csv(file_name)
+        if header:
+            data = pd.read_csv(file_name)
+        else:
+            data = pd.read_csv(file_name, header=None)
     except Exception as e:
         print("Unable to read the file '" + file_name + "' as expected. Please review error: ")
         print(e)
