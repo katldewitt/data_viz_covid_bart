@@ -28,16 +28,6 @@ import io_helper as io_hlp
 #The counties with a BART Station
 counties_to_keep = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
 
-def read_data(file_name):
-    data = None
-    try:
-        data = pd.read_csv(file_name)
-    except Exception as e:
-        print("Unable to read the file '" + file_name + "' as expected. Please review error: ")
-        print(e)
-    finally:
-        return data
-
 def clean_data(data):
     #General: Keep only useful columns
     data_cleaned = data[['date', 'area', 'population', 'cases', 'deaths']]
@@ -60,12 +50,14 @@ def clean_data(data):
 
 
     #3.2 EDA: Are there any invalid dates?
-    num_na_dates = data_cleaned['date'].isna().count()
+    num_na_dates =  data_cleaned.isnull().sum().sum()
     if num_na_dates > 0:
         print(f"Found {num_na_dates} dates with NA's. Removing these rows.")
         #3.2 Genearal: Remove NaN dates, which are culmative totals
         data_cleaned = data_cleaned[data_cleaned['date'].notna()]
-        num_na_dates = data_cleaned['date'].isna().count()
+
+        #Verify this worked
+        num_na_dates = data_cleaned.isnull().sum().sum()
         assert num_na_dates == 0
 
     #4.2 Meet column name specifications
@@ -74,17 +66,9 @@ def clean_data(data):
     return data_cleaned
 
 
-def save_data(data, save_name):
-    try:
-        data.to_csv(save_name, index=False)  
-        print("Successfully saved file " + save_name)
-    except Exception as e:
-        print("Unable to save the file as expected. Please review error: " )
-        print(e)
-
 def main():
-    covid_data = read_data("covid19cases_test.csv")
+    covid_data = io_hlp.read_data("covid19cases_test.csv")
     covid_data = clean_data(covid_data)
-    save_data(covid_data, "101_covid_daily_data.csv")
+    io_hlp.save_data(covid_data, "101_covid_daily_data.csv")
 
 main()
