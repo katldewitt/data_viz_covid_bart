@@ -3,6 +3,7 @@
 # Author: Kathryn DeWitt (kdewitt3)
 import datetime as dt
 import pandas as pd
+import os
 
 def read_data(file_name, header = True):
     data = None
@@ -17,9 +18,9 @@ def read_data(file_name, header = True):
     finally:
         return data
 
-def save_data(data, save_name):
+def save_data(data, save_name, keep_index = False):
     try:
-        data.to_csv(save_name, index=False)  
+        data.to_csv(save_name, index=keep_index)  
         print("Successfully saved file " + save_name)
     except Exception as e:
         print("Unable to save the file as expected. Please review error: " )

@@ -25,12 +25,13 @@
 
 import datetime as dt
 from ntpath import join
+from pickle import TRUE
 import pandas as pd
 import numpy as np
 import io_helper as io_hlp
 
 #years to read in
-years = ["2020", "2021", "2022"]
+years = ["2022"]#"2019", "2020", "2021", "2022"]
 
 def rollup_data(data):
     #Rename columns
@@ -57,26 +58,40 @@ def rollup_data(data):
 
 def clean_data(data):
     #4.1 update the column names
+    cleaned_data = data.rename(columns={'County': 'station_cnty', 'station': 'station_abbr', 'Name': 'station_nm'})
+    return cleaned_data
+
+def qa_data(data):
     #3.3 EDA: How many stations in each county?
     print()
     print(">> EDA: How many stations per county?")
     print(data[['station', 'County']].drop_duplicates().groupby(by=['County']).count())
 
-    #3.4 EDA: What is the average exits and entrants of each county by week? 
+    #3.4 EDA: What is the average exits and entrants of each county by year/month? 
     print()
-    print(">> EDA: average exits and entrants of each county by week?")
-    #TODO: Get year and date....
-    #print(data[['station', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min())
+    print(">> EDA: average exits and entrants of each county by year?")
+    tempdata = data.copy(TRUE)
+    tempdata['year'] = pd.DatetimeIndex(tempdata['date']).year
+    temp_yearly = tempdata[['County', 'year', 'cnt_entries', 'cnt_exits']].groupby(by=['County','year']).mean()
+    io_hlp.save_data(temp_yearly, "100_QA_files//100_qa_temp_yearly.csv", True)
+
+    print(">> EDA: average exits and entrants of each county by month?")
+    tempdata['month'] = pd.DatetimeIndex(tempdata['date']).month
+    temp_monthly = tempdata[['County', 'station', 'year', 'month', 'cnt_entries', 'cnt_exits']].groupby(by=['County','year', 'month']).mean()
+    io_hlp.save_data(temp_monthly, "100_QA_files//100_qa_temp_monthly.csv", True)
 
     #3.5 EDA: Do any rows have 0 exits or entrants?
     print()
     print(">> EDA: Any 0 entries or 0 exits?")
-    print(data[['station', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min())
+    print("Look at the min value for each station.")
+    temp_min_cnts = data[['station', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min()
+    print(temp_min_cnts)
+    io_hlp.save_data(temp_min_cnts, "100_QA_files//100_qa_min_cnts.csv", True)
     
 
 def add_county(data):
     #read in the station name, station code, county crosswalk
-    county_xwalk = io_hlp.read_data("station_county_xwalk.csv").rename(columns={'Code':'station'})
+    county_xwalk = io_hlp.read_data("User_Created_Data//station_county_xwalk.csv").rename(columns={'Code':'station'})
     
     #Merge the crosswalks based on county code
     joined_xwalk = county_xwalk.merge(data, on=['station'])
@@ -90,14 +105,15 @@ def main():
 
     for y in years:
         print(f"Processing data for {y}")
-        yearly_data = io_hlp.read_data(f"date-hour-soo-dest-{y}.csv", False)   
+        yearly_data = io_hlp.read_data(f"Raw_Data//date-hour-soo-dest-{y}.csv", False)   
          # store DataFrame in list
         list_df.append(yearly_data)
     bart_data = pd.concat(list_df)
         
     bart_data_rolledup = rollup_data(bart_data)
     final_dataset = add_county(bart_data_rolledup)
+    qa_data(final_dataset)
     final_dataset = clean_data(final_dataset)
-    io_hlp.save_data(final_dataset, "100_ridership_data.csv")
+    io_hlp.save_data(final_dataset, "User_Created_Data//100_ridership_data.csv")
 
 main()

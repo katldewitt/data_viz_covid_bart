@@ -53,6 +53,7 @@ def clean_data(data):
     num_na_dates =  data_cleaned.isnull().sum().sum()
     if num_na_dates > 0:
         print(f"Found {num_na_dates} dates with NA's. Removing these rows.")
+        io_hlp.save_data(data_cleaned[data_cleaned['date'].isna()], "100_QA_files//101_qa_na_vals.csv", True)
         #3.2 Genearal: Remove NaN dates, which are culmative totals
         data_cleaned = data_cleaned[data_cleaned['date'].notna()]
 
@@ -67,8 +68,8 @@ def clean_data(data):
 
 
 def main():
-    covid_data = io_hlp.read_data("covid19cases_test.csv")
+    covid_data = io_hlp.read_data("Raw_Data//covid19cases_test.csv")
     covid_data = clean_data(covid_data)
-    io_hlp.save_data(covid_data, "101_covid_daily_data.csv")
+    io_hlp.save_data(covid_data, "User_Created_Data//101_covid_daily_data.csv")
 
 main()
