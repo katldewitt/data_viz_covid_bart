@@ -36,3 +36,17 @@ Goal: Interactively visualize how COVID Cases at the county level impacted BART 
 
 **Clean up Requirements:**
 1. Crosswalk between Ridership Data (Station Code) and geographical Bart Station location
+
+## Data Source #4 CA County Shape File
+
+**Url:** [CA Data.gov](https://data.ca.gov/dataset/ca-geographic-boundaries) > CA County Boundaries
+
+**Key Data Documentation Notes:** n/a
+
+**Clean up Requirements:**
+1. [Spatial join in Tabelau](https://www.tableau.com/about/blog/2018/8/perform-advanced-spatial-analysis-spatial-join-now-available-tableau-92166)
+
+
+**Tutorials Used in Tableau**
+1. https://community.tableau.com/s/news/a0A4T000001v7SCUAY/dual-axis-mapping-many-ways
+2. https://community.tableau.com/s/question/0D54T00000C6SBCSA3/getting-tableau-county-info-for-plotted-latlong
