@@ -24,15 +24,18 @@
 '''
 
 import datetime as dt
+from ntpath import join
 import pandas as pd
 import numpy as np
 import io_helper as io_hlp
 
+#years to read in
+years = ["2020", "2021", "2022"]
 
 def rollup_data(data):
     #Rename columns
     cleaned_data = data.rename(columns={0: 'date', 1: 'hour', 2: 'entry', 3: 'exit', 4: 'count'})
-    print(cleaned_data)
+    
     #Remove hour before roll up:
     cleaned_data = cleaned_data[['date', 'entry', 'exit', 'count']]
 
@@ -50,20 +53,51 @@ def rollup_data(data):
 
     #Finally, join the datasets to create a single df that is unique at the Date-Station Level 
     join_cleaned_data = cleaned_entrants.merge(cleaned_exits, on=['station', 'date'])
-
-    print(join_cleaned_data)
     return join_cleaned_data
 
 def clean_data(data):
-    pass
+    #4.1 update the column names
+    #3.3 EDA: How many stations in each county?
+    print()
+    print(">> EDA: How many stations per county?")
+    print(data[['station', 'County']].drop_duplicates().groupby(by=['County']).count())
 
-def add_county():
-    pass
+    #3.4 EDA: What is the average exits and entrants of each county by week? 
+    print()
+    print(">> EDA: average exits and entrants of each county by week?")
+    #TODO: Get year and date....
+    #print(data[['station', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min())
+
+    #3.5 EDA: Do any rows have 0 exits or entrants?
+    print()
+    print(">> EDA: Any 0 entries or 0 exits?")
+    print(data[['station', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min())
+    
+
+def add_county(data):
+    #read in the station name, station code, county crosswalk
+    county_xwalk = io_hlp.read_data("station_county_xwalk.csv").rename(columns={'Code':'station'})
+    
+    #Merge the crosswalks based on county code
+    joined_xwalk = county_xwalk.merge(data, on=['station'])
+    return joined_xwalk
+
+
 
 def main():
-    bart_data = io_hlp.read_data("date-hour-soo-dest-2020.csv", False)
-    bart_data = rollup_data(bart_data)
-    #bart_data = clean_data(bart_data)
-    io_hlp.save_data(bart_data, "100_ridership_data.csv")
+    #intialize a list for concatenating
+    list_df = []
+
+    for y in years:
+        print(f"Processing data for {y}")
+        yearly_data = io_hlp.read_data(f"date-hour-soo-dest-{y}.csv", False)   
+         # store DataFrame in list
+        list_df.append(yearly_data)
+    bart_data = pd.concat(list_df)
+        
+    bart_data_rolledup = rollup_data(bart_data)
+    final_dataset = add_county(bart_data_rolledup)
+    final_dataset = clean_data(final_dataset)
+    io_hlp.save_data(final_dataset, "100_ridership_data.csv")
 
 main()
