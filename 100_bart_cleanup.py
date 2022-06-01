@@ -31,7 +31,7 @@ import numpy as np
 import io_helper as io_hlp
 
 #years to read in
-years = ["2022"]#"2019", "2020", "2021", "2022"]
+years = ["2019", "2020", "2021", "2022"]
 
 def rollup_data(data):
     #Rename columns
