@@ -1,48 +1,48 @@
-station,cnt_entries,cnt_exits
-12TH,234,142
-16TH,260,255
-19TH,189,158
-24TH,286,297
-ANTC,87,69
-ASHB,104,92
-BALB,229,249
-BAYF,194,204
-BERY,1,1
-CAST,49,45
-CIVC,505,459
-COLM,87,85
-COLS,225,230
-CONC,152,147
-DALY,198,205
-DBRK,155,130
-DELN,216,111
-DUBL,87,79
-EMBR,270,290
-FRMT,80,79
-FTVL,336,364
-GLEN,124,119
-HAYW,2,1
-LAFY,18,25
-LAKE,149,129
-MCAR,189,182
-MLBR,2,1
-MLPT,1,1
-MONT,197,284
-NBRK,56,55
-OAKL,20,16
-ORIN,1,1
-PHIL,83,79
-PITT,116,97
-PLZA,87,91
-POWL,406,355
-RICH,4,1
-ROCK,34,47
-SANL,204,220
-SBRN,63,66
-SFIA,152,138
-SHAY,72,83
-UCTY,81,85
-WARM,32,44
-WCRK,73,74
-WDUB,31,28
-WOAK,195,194
+station,Name,cnt_entries,cnt_exits
+12TH,12th Street / Oakland City Center,234,142
+16TH,16th Street Mission,260,255
+19TH,19th Street Oakland,189,158
+24TH,24th Street Mission,286,297
+ANTC,Antioch,87,69
+ASHB,Ashby,104,92
+BALB,Balboa Park,229,249
+BAYF,Bayfair,194,204
+BERY,Berryessa / North San José,1,1
+CAST,Castro Valley,49,45
+CIVC,Civic Center,505,459
+COLM,Colma,87,85
+COLS,Coliseum,225,230
+CONC,Concord,152,147
+DALY,Daly City,198,205
+DBRK,Berkeley,155,130
+DELN,El Cerrito Del Norte,216,111
+DUBL,Dublin/Pleasanton,87,79
+EMBR,Embarcadero,270,290
+FRMT,Fremont,80,79
+FTVL,Fruitvale,336,364
+GLEN,Glen Park,124,119
+HAYW,Hayward,2,1
+LAFY,Lafayette,18,25
+LAKE,Lake Merritt,149,129
+MCAR,MacArthur,189,182
+MLBR,Millbrae,2,1
+MLPT,Milpitas,1,1
+MONT,Montgomery Street,197,284
+NBRK,North Berkeley,56,55
+OAKL,Oakland International Airport,20,16
+ORIN,Orinda,1,1
+PHIL,Pleasant Hill,83,79
+PITT,Pittsburg Center,116,97
+PLZA,El Cerrito Plaza,87,91
+POWL,Powell Street,406,355
+RICH,Richmond,4,1
+ROCK,Rockridge,34,47
+SANL,San Leandro,204,220
+SBRN,San Bruno,63,66
+SFIA,San Francisco International Airport,152,138
+SHAY,South Hayward,72,83
+UCTY,Union City,81,85
+WARM,Warm Springs,32,44
+WCRK,Walnut Creek,73,74
+WDUB,West Dublin/Pleasanton,31,28
+WOAK,West Oakland,195,194

@@ -27,7 +27,6 @@ import datetime as dt
 from ntpath import join
 from pickle import TRUE
 import pandas as pd
-import numpy as np
 import io_helper as io_hlp
 
 #years to read in
@@ -59,6 +58,14 @@ def rollup_data(data):
 def clean_data(data):
     #4.1 update the column names
     cleaned_data = data.rename(columns={'County': 'station_cnty', 'station': 'station_abbr', 'Name': 'station_nm'})
+
+    #4.2 fix character issues
+    cleaned_data['station_nm'] = cleaned_data['station_nm'].replace({'16th Street Mission': '16th St/Mission', 
+                                        '24th Street Mission': '24th St/Mission', 
+                                        'Berryessa / North San JosÃ©': 'Berryesa/San Jose', 
+                                        '12th Street / Oakland City Center': '12th St/Oakland City Center',
+                                        '24th Street Mission' : '24th St/Mission',
+                                        'Civic Center' : 'Civic Center/UN Plaza'})
     return cleaned_data
 
 def qa_data(data):
@@ -84,7 +91,7 @@ def qa_data(data):
     print()
     print(">> EDA: Any 0 entries or 0 exits?")
     print("Look at the min value for each station.")
-    temp_min_cnts = data[['station', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min()
+    temp_min_cnts = data[['station', 'Name', 'cnt_entries', 'cnt_exits']].groupby(by=['station']).min()
     print(temp_min_cnts)
     io_hlp.save_data(temp_min_cnts, "100_QA_files//100_qa_min_cnts.csv", True)
     
