@@ -17,7 +17,6 @@
         cases                  - an int of the number of cases for the county on date
         deaths                 - an int of the number of deaths for the county on date
         population             - an int representing the reported population of county (used to calculate percapita COVID statistics)
-        TODO: Hospitilizations too? Need alternate data source
 '''
 
 import datetime as dt
@@ -28,9 +27,30 @@ import io_helper as io_hlp
 #The counties with a BART Station
 counties_to_keep = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
 
+def add_2019(data):
+    df =  pd.DataFrame([{'cases' : '0', 'deaths': '0',  'Entry Date': '1/1/2019', 'Exit Date': '12/31/2019'}])
+    df['Entry Date'] = pd.to_datetime(df['Entry Date'])
+    df['Exit Date'] = pd.to_datetime(df['Exit Date'])
+
+    df = (df.assign(Date = [pd.date_range(start, end) 
+                    for start, end 
+                    in zip(df['Entry Date'], df['Exit Date'])]
+            )
+    .explode('Date', ignore_index = True)
+    )
+    #align columns and column naming
+    df = df[['Date', 'cases', 'deaths']]
+    df = df.rename(columns={"Date": "date"} )
+
+    #Prep county and population
+    temp_data = data[['county', 'population']].drop_duplicates()
+
+    result = pd.merge(df, temp_data, 'cross')
+    return result.append(data)
+
 def clean_data(data):
     #General: Keep only useful columns
-    data_cleaned = data[['date', 'area', 'population', 'cases', 'deaths']]
+    data_cleaned = data[['date', 'cases', 'deaths', 'area', 'population']]
 
     #2. Drop counties that do not have BART Stations
     data_cleaned = data_cleaned[data_cleaned['area'].isin(counties_to_keep)]
@@ -70,6 +90,7 @@ def clean_data(data):
 def main():
     covid_data = io_hlp.read_data("Raw_Data//covid19cases_test.csv")
     covid_data = clean_data(covid_data)
+    covid_data = add_2019(covid_data)
     io_hlp.save_data(covid_data, "User_Created_Data//101_covid_daily_data.csv")
 
 main()
