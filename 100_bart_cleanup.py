@@ -62,10 +62,17 @@ def clean_data(data):
     #4.2 fix character issues
     cleaned_data['station_nm'] = cleaned_data['station_nm'].replace({'16th Street Mission': '16th St/Mission', 
                                         '24th Street Mission': '24th St/Mission', 
-                                        'Berryessa / North San JosÃ©': 'Berryesa/San Jose', 
+                                        'Berryessa / North San José': 'Berryesa/San Jose', 
                                         '12th Street / Oakland City Center': '12th St/Oakland City Center',
                                         '24th Street Mission' : '24th St/Mission',
-                                        'Civic Center' : 'Civic Center/UN Plaza'})
+                                        'Civic Center' : 'Civic Center/UN Plaza',
+                                        '19th Street Oakland' : '19th St/Oakland',
+                                        'Warm Springs' : 'Warm Springs/South Fremont',
+                                        'Coliseum' : 'Coliseum/Airport Connector',
+                                        'Powell Street' : 'Powell St',
+                                        'Pleasant Hill': 'Pleasant Hill/Contra Costa Centre',
+                                        'Montgomery Street' : 'Montgomery St'})
+    print(cleaned_data['station_nm'].unique())
     return cleaned_data
 
 def qa_data(data):
