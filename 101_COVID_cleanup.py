@@ -41,6 +41,7 @@ def add_2019(data):
     #align columns and column naming
     df = df[['Date', 'cases', 'deaths']]
     df = df.rename(columns={"Date": "date"} )
+    df['date'] = pd.to_datetime(df['date']).dt.date
 
     #Prep county and population
     temp_data = data[['county', 'population']].drop_duplicates()
