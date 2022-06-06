@@ -1,9 +1,9 @@
 ﻿Name,County,Code
 Richmond,Contra Costa,RICH
-El Cerrito Del Norte,Contra Costa,DELN
+El Cerrito del Norte,Contra Costa,DELN
 El Cerrito Plaza,Contra Costa,PLZA
 North Berkeley,Alameda,NBRK
-Berkeley,Alameda,DBRK
+Downtown Berkeley,Alameda,DBRK
 Ashby,Alameda,ASHB
 MacArthur,Alameda,MCAR
 19th Street Oakland,Alameda,19TH
@@ -36,9 +36,9 @@ Daly City,San Mateo,DALY
 Colma,San Mateo,COLM
 Castro Valley,Alameda,CAST
 Dublin/Pleasanton,Alameda,DUBL
-North Concord,Contra Costa,NORT
+North Concord/Martinez,Contra Costa,NORT
 Pittsburg/Bay Point,Contra Costa,PITT
-South San Francisco,San Mateo,SOUT
+South San Francisco,San Mateo,SSAN
 San Bruno,San Mateo,SBRN
 San Francisco International Airport,San Mateo,SFIA
 Millbrae,San Mateo,MLBR
