@@ -53,6 +53,7 @@ def rollup_data(data):
 
     #Finally, join the datasets to create a single df that is unique at the Date-Station Level 
     join_cleaned_data = cleaned_entrants.merge(cleaned_exits, on=['station', 'date'])
+    print(join_cleaned_data[["station"]].drop_duplicates())
     return join_cleaned_data
 
 def clean_data(data):
@@ -71,7 +72,8 @@ def clean_data(data):
                                         'Coliseum' : 'Coliseum/Airport Connector',
                                         'Powell Street' : 'Powell St',
                                         'Pleasant Hill': 'Pleasant Hill/Contra Costa Centre',
-                                        'Montgomery Street' : 'Montgomery St'})
+                                        'Montgomery Street' : 'Montgomery St',
+                                        'Bayfair' : 'Bay Fair'})
     print(cleaned_data['station_nm'].unique())
     return cleaned_data
 

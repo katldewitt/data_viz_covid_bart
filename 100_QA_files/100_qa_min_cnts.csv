@@ -14,8 +14,8 @@ COLM,Colma,87,85
 COLS,Coliseum,225,230
 CONC,Concord,152,147
 DALY,Daly City,198,205
-DBRK,Berkeley,155,130
-DELN,El Cerrito Del Norte,216,111
+DBRK,Downtown Berkeley,155,130
+DELN,El Cerrito del Norte,216,111
 DUBL,Dublin/Pleasanton,87,79
 EMBR,Embarcadero,270,290
 FRMT,Fremont,80,79
@@ -41,6 +41,7 @@ SANL,San Leandro,204,220
 SBRN,San Bruno,63,66
 SFIA,San Francisco International Airport,152,138
 SHAY,South Hayward,72,83
+SSAN,South San Francisco,45,40
 UCTY,Union City,81,85
 WARM,Warm Springs,32,44
 WCRK,Walnut Creek,73,74
