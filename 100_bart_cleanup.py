@@ -63,7 +63,7 @@ def clean_data(data):
     #4.2 fix character issues
     cleaned_data['station_nm'] = cleaned_data['station_nm'].replace({'16th Street Mission': '16th St/Mission', 
                                         '24th Street Mission': '24th St/Mission', 
-                                        'Berryessa / North San José': 'Berryesa/North San Jose', 
+                                        'Berryessa / North San José': 'Berryessa/North San Jose', 
                                         '12th Street / Oakland City Center': '12th St/Oakland City Center',
                                         '24th Street Mission' : '24th St/Mission',
                                         'Civic Center' : 'Civic Center/UN Plaza',
