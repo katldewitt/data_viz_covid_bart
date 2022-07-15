@@ -4,7 +4,7 @@
 <body onload='init()'>
 <svg width=300 height=300>
 </svg>
-<div id ="tooltip" opacity =0></div>
+<div id ="tooltip" opacity =0 ></div>
 <script>
 //TODO: get data into graph
 async function init() {
@@ -44,14 +44,15 @@ var mouseover = function(d,i) {
     tooltip
         .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
 
-        .style("left", (d3.mouse(this)[0]+70) + "px")
-      .style("top", (d3.mouse(this)[1]) + "px")
         .attr("class", "tooltip")
         .style("background-color", "white")
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "5px")
+
+        .style("left", (event.pageX)+ "px")
+      .style("top", (event.pageY) + "px");
   }
   var mouseleave = function(d,i) {
     tooltip
