@@ -24,6 +24,40 @@ async function init() {
 
    var tooltip = d3.select("#tooltip");
 
+
+
+var mouseover = function(d,i) {
+    tooltip.style("opacity",1)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+      .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d,i) {
+    tooltip
+        .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
+
+        .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+  }
+  var mouseleave = function(d,i) {
+    tooltip
+      .style("opacity", 0)
+  }
+
   d3.select("svg").append("g").attr("transform", "translate(50,50)")
     .selectAll("circle")
     .data(data)
@@ -32,45 +66,11 @@ async function init() {
     .attr("cx",function(d,i){ return 2 * x(d.AverageCityMPG);})
     .attr("cy",function(d,i){ return y(Number(d.AverageHighwayMPG));})
     .attr("r",function(d,i){ return 3 * Number(d.EngineCylinders);})
-    .on("mouseover", function(d,i){
-        tooltip.style("opacity",1)
-        .style("left", d3.mouse(this)[0]  + "px")
-        .style("top", d3.mouse(this)[1] + "px")
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-        .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] )
-    });
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave);
 
 
-var mouseover = function(d) {
-    tooltip.style("opacity",1)
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  var mousemove = function(d) {
-    tooltip
-        .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] )
-      .style("left", (d3.mouse(this)[0]+70) + "px")
-      .style("top", (d3.mouse(this)[1]) + "px")
-  }
-  var mouseleave = function(d) {
-    tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
 
 
   d3.select("svg").append("g").attr("transform", "translate(50,50)")
