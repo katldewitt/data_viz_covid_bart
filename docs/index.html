@@ -4,6 +4,7 @@
 <body onload='init()'>
 <svg width=300 height=300>
 </svg>
+<div id ="tooltip" opacity =0></div>
 <script>
 //TODO: get data into graph
 async function init() {
@@ -21,6 +22,7 @@ async function init() {
   var y_axis = d3.axisLeft()
    .scale(y).tickValues([10, 30, 70, 100]).tickFormat(d3.format("~s"));
 
+   var tooltip = d3.select("#tooltip");
 
   d3.select("svg").append("g").attr("transform", "translate(50,50)")
     .selectAll("circle")
@@ -29,7 +31,46 @@ async function init() {
     .append("circle")
     .attr("cx",function(d,i){ return 2 * x(d.AverageCityMPG);})
     .attr("cy",function(d,i){ return y(Number(d.AverageHighwayMPG));})
-    .attr("r",function(d,i){ return 3 * Number(d.EngineCylinders);});
+    .attr("r",function(d,i){ return 3 * Number(d.EngineCylinders);})
+    .on("mouseover", function(d,i){
+        tooltip.style("opacity",1)
+        .style("left", d3.mouse(this)[0]  + "px")
+        .style("top", d3.mouse(this)[1] + "px")
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] )
+    });
+
+
+var mouseover = function(d) {
+    tooltip.style("opacity",1)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    tooltip
+        .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] )
+      .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+  var mouseleave = function(d) {
+    tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
 
 
   d3.select("svg").append("g").attr("transform", "translate(50,50)")
@@ -38,9 +79,11 @@ async function init() {
   d3.select("svg").append("g").attr("transform", "translate(50,250)")
      .call(x_axis);
 
-}
 
-//EXAMPLE https://github.com/mbtaviz/mbtaviz.github.io/
+}
 </script>
+<p>EXAMPLE https://github.com/mbtaviz/mbtaviz.github.io/</p>
+
+
 </body>
 </html>
