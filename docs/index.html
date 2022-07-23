@@ -9,18 +9,18 @@
 //TODO: get data into graph
 async function init() {
       const data = await d3.csv(
-    'https://flunky.github.io/cars2017.csv');
+    'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/main/User_Created_Data/100_ridership_data.csv');
  
-  var y = d3.scaleLog()
-            .domain([10, 150])
+  var y = d3.scaleLinear()
+            .domain([0, 55464])
             .range([200, 0]);
-  var x = d3.scaleLog()
-            .domain([10, 150])
+  var x = d3.scaleLinear()
+            .domain([0, 47839])
             .range([0, 200]);
   var x_axis = d3.axisBottom()
-   .scale(x).tickValues([10, 30, 70, 100]).tickFormat(d3.format("~s"));
+   .scale(x).tickFormat(d3.format("~s"));
   var y_axis = d3.axisLeft()
-   .scale(y).tickValues([10, 30, 70, 100]).tickFormat(d3.format("~s"));
+   .scale(y).tickFormat(d3.format("~s"));
 
    var tooltip = d3.select("#tooltip");
 
@@ -42,7 +42,7 @@ var mouseover = function(d,i) {
   }
   var mousemove = function(d,i) {
     tooltip
-        .html("Item # "+i+"is "+d.AverageCityMPG +  " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
+        .html("Item # "+i+"is "+d.station_cnty +  " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
 
         .attr("class", "tooltip")
         .style("background-color", "white")
@@ -64,9 +64,9 @@ var mouseover = function(d,i) {
     .data(data)
     .enter()
     .append("circle")
-    .attr("cx",function(d,i){ return 2 * x(d.AverageCityMPG);})
-    .attr("cy",function(d,i){ return y(Number(d.AverageHighwayMPG));})
-    .attr("r",function(d,i){ return 3 * Number(d.EngineCylinders);})
+    .attr("cx",function(d,i){ return 2 * x(d.cnt_entries);})
+    .attr("cy",function(d,i){ return y(Number(d.cnt_exits));})
+    .attr("r",function(d,i){ return 1;})
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave);
