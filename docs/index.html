@@ -32,7 +32,11 @@ async function init() {
 
 
   
+//TODO: Filter data by county and year
+//https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 
+
+//TODO:anotations and affordances
 
 var mouseover = function(d,i) {
     tooltip.style("opacity",1)
@@ -65,14 +69,16 @@ var mouseover = function(d,i) {
     tooltip
       .style("opacity", 0)
   }
+
   //Group lines by color
   var allGroup = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
   var myColor = d3.scaleOrdinal()
       .domain(allGroup)
       .range(d3.schemeSet2);
-  
-  console.log(myColor("Alameda"));
-  d3.select("svg").append("g").attr("transform", "translate(50,50)")
+
+  var svg =  d3.select("svg").append("g").attr("transform", "translate(50,50)");
+
+  svg
     .selectAll("circle")
     .data(data)
     .enter()
@@ -91,20 +97,20 @@ var mouseover = function(d,i) {
     var line = d3.line()
       .x(function(d) { return x(+getDate(d)) })
       .y(function(d) { return y(+Number(d.cnt_exits)) });
-   /* d3.select("svg").append("g").attr("transform", "translate(50,50)")
+      svg.attr("transform", "translate(50,50)")
       .data(data)
       .enter()
       .append("path")
         .attr("d", function(d){ return line(d) } )
         .attr("stroke", function(d){ return myColor(d.station_cnty) })
         .style("stroke-width", 4)
-        .style("fill", "none")*/
+        .style("fill", "none")
 
 
-  d3.select("svg").append("g").attr("transform", "translate(50,50)")
+    d3.select("svg").append("g").attr("transform", "translate(50,50)")
      .call(y_axis);
 
-  d3.select("svg").append("g").attr("transform", "translate(50,250)")
+     d3.select("svg").append("g").attr("transform", "translate(50,250)")
      .call(x_axis)
      .selectAll("text")  
       .style("text-anchor", "end")
