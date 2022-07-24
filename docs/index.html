@@ -8,7 +8,7 @@
 
 <label for="input year">Year</label>
   <select id="select_year" name="select_year">
-    <option value="All"></option>
+    <option value=".*"></option>
     <option value="2019">2019</option>
     <option value="2020">2020</option>
     <option value="2021">2021</option>
@@ -17,7 +17,7 @@
 
 <label for="input county">County</label>
   <select id="select_cnty" name="select_cnty">
-    <option value="None"></option>
+    <option value=".*"></option>
     <option value="Alameda">Alameda</option>
     <option value="Contra Costa">Contra Costa</option>
     <option value="San Francisco">San Francisco</option>
@@ -66,10 +66,10 @@ function onYearChange(){
   circles.transition()
     .duration(1000)
     .style("opacity", function(d) {
-      if (selectedCnty == "None") {
-        return d.year == selectedYear ? 1 : 0;
-      }
-      return d.year == selectedYear && d.station_cnty == selectedCnty ? 1 : 0;
+      //I used regex to filter the data. The blank values match ALL counties/years.
+      var matchCnty = new RegExp(selectedCnty).test(d.station_cnty);
+      var matchYear = new RegExp(selectedYear).test(d.year);
+      return matchCnty && matchYear ? 1 : 0;
     }) 
 }
 //************************* End: Filter by year
@@ -88,10 +88,9 @@ function onCntyChange(){
   circles.transition()
     .duration(1000)
     .style("opacity", function(d) {
-      if (selectedYear == "All") {
-        return  d.station_cnty == selectedCnty  ? 1 : 0;
-      }
-      return d.year == selectedYear && d.station_cnty == selectedCnty ? 1 : 0;
+      var matchCnty = new RegExp(selectedCnty).test(d.station_cnty);
+      var matchYear = new RegExp(selectedYear).test(d.year);
+      return matchCnty && matchYear ? 1 : 0;
     }) 
 }
 function showAllCnty(){
