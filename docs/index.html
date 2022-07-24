@@ -5,13 +5,25 @@
 <svg width=650 height=300>
 </svg>
 <div id ="tooltip" opacity =0 ></div>
+
+<label for="input county">County</label>
+  <select id="select_cnty" name="select_cnty">
+    <option value="Alameda">Alameda</option>
+    <option value="Contra Costa">Contra Costa</option>
+    <option value="San Francisco">San Francisco</option>
+    <option value="San Mateo">San Mateo</option>
+    <option value="Santa Clara">Santa Clara</option>
+   </select>
+   <button id="All Counties">
+   All Counties
+   </button>
 <script>
 async function init() {
       const data = await d3.csv(
-    'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/main/User_Created_Data/100_ridership_data.csv');
+    'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/feat/vis-narrative/User_Created_Data/103_monthly_ridership_data.csv');
  
   var y = d3.scaleLinear()
-            .domain([0, 47839])
+            .domain([0, 9550000])
             .range([200, 0]);
 
   //Source: Working with dates in D3 js https://stackoverflow.com/questions/8301531/dealing-with-dates-on-d3-js-axis
@@ -33,6 +45,12 @@ async function init() {
 
   
 //TODO: Filter data by county and year
+var cnty = document.getElementById('select_cnty');
+cnty.addEventListener("change", onCntyChage);
+function onCntyChage(){
+  //cnty = document.getElementById('select_cnty');
+  var value = this.value;
+}
 //https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 
 
@@ -84,10 +102,11 @@ var mouseover = function(d,i) {
     .enter()
     .append("circle")
     .attr("cx",function(d,i){ return  x(getDate(d));})
-    .attr("cy",function(d,i){ return y(Number(d.cnt_exits));})
-    .attr("r",function(d,i){ return 1;})
+    .attr("cy",function(d,i){ return y(Number(d.cnt_riders));})
+    .attr("r",function(d,i){ return 4;})
     .style("fill",  function(d){ return myColor(d.station_cnty) })
     .style("stroke",  function(d){ return myColor(d.station_cnty) })
+    .style("opacity", function(d){ return 1})//d.station_cnty == cnty?1:0})
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave);

@@ -10,6 +10,8 @@ Course: CS416 Data Visualization
 
 > What is the message you are trying to communicate with the narrative visualization?
 
+The message I am trying to communicate with the narrative visualization is that BART ridership has dropped off due to the pandemic. The user can explore this trend by county and station.
+
 ## Narrative Structure
 
 > Which structure was your narrative visualization designed to follow (martini glass, interactive slide show or drop-down story)? How does your narrative visualization follow that structure? (All of these structures can include the opportunity to "drill-down" and explore. The difference is where that opportunity happens in the structure.)
@@ -37,7 +39,9 @@ Course: CS416 Data Visualization
 
 > What are the parameters of the narrative visualization? What are the states of the narrative visualization? How are the parameters used to define the state and each scene?
 
+- Scene #
 - County
+- Station
 - Year
 
 ## Triggers
