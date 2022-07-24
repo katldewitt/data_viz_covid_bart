@@ -2,7 +2,7 @@
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <style> circle {fill: lightblue; stroke: black;} </style>
 <body onload='init()'>
-<svg width=300 height=300>
+<svg width=650 height=300>
 </svg>
 <div id ="tooltip" opacity =0 ></div>
 <script>
@@ -14,20 +14,25 @@ async function init() {
   var y = d3.scaleLinear()
             .domain([0, 47839])
             .range([200, 0]);
-  var x = d3.scaleLinear()
-            .domain([0, 55464])
-            .range([0, 200]);
+
+  //Source: Working with dates in D3 js https://stackoverflow.com/questions/8301531/dealing-with-dates-on-d3-js-axis
+  function getDate(d) {
+    return new Date(d.date);
+  }
+  var x = d3.scaleTime()
+              .domain([new Date("1/1/2019"), new Date("5/2/2022")])
+              .range([0, 600]);
+
   var x_axis = d3.axisBottom()
-   .scale(x).tickFormat(d3.format("~s"));
+
+   .scale(x).ticks(d3.timeMonth, 1).tickFormat(d3.timeFormat('%b-%Y'));
   var y_axis = d3.axisLeft()
    .scale(y).tickFormat(d3.format("~s"));
 
    var tooltip = d3.select("#tooltip");
 
 
-   //Source: Working with dates in D3 js  https://stackoverflow.com/questions/17721929/date-format-in-d3-js
-   //var parseDate = d3.time.format("%Y/%m/%d");
-   //var formatDate = d3.timeFormat("%b-%Y");
+  
 
 
 var mouseover = function(d,i) {
@@ -47,7 +52,6 @@ var mouseover = function(d,i) {
   var mousemove = function(d,i) {
     tooltip
         .html("Item # "+i+"is "+d.station_cnty +  " " + d.date + " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
-          ///d3.time.format("%Y/%m/%d").parse(d.date)
         .attr("class", "tooltip")
         .style("background-color", "white")
         .style("border", "solid")
@@ -62,27 +66,51 @@ var mouseover = function(d,i) {
     tooltip
       .style("opacity", 0)
   }
-
+  //Group lines by color
+  var allGroup = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
+  var myColor = d3.scaleOrdinal()
+      .domain(allGroup)
+      .range(d3.schemeSet2);
+  
+  console.log(myColor("Alameda"));
   d3.select("svg").append("g").attr("transform", "translate(50,50)")
     .selectAll("circle")
     .data(data)
     .enter()
     .append("circle")
-    .attr("cx",function(d,i){ return 2 * x(d.cnt_entries);})
+    .attr("cx",function(d,i){ return  x(getDate(d));})
     .attr("cy",function(d,i){ return y(Number(d.cnt_exits));})
     .attr("r",function(d,i){ return 1;})
+    .style("fill", "rgb(12,240,233)" )//.style("fill", function(d){ return myColor(d.station_cnty) }) //TODO: WHY IS COLOR NOT WORKING??
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave);
 
-
+    
+  //TODO: get scatter plot working https://d3-graph-gallery.com/graph/connectedscatter_multi.html
+    var line = d3.line()
+      .x(function(d) { return x(+getDate(d)) })
+      .y(function(d) { return y(+Number(d.cnt_exits)) });
+   /* d3.select("svg").append("g").attr("transform", "translate(50,50)")
+      .data(data)
+      .enter()
+      .append("path")
+        .attr("d", function(d){ return line(d) } )
+        .attr("stroke", function(d){ return myColor(d.station_cnty) })
+        .style("stroke-width", 4)
+        .style("fill", "none")*/
 
 
   d3.select("svg").append("g").attr("transform", "translate(50,50)")
      .call(y_axis);
 
   d3.select("svg").append("g").attr("transform", "translate(50,250)")
-     .call(x_axis);
+     .call(x_axis)
+     .selectAll("text")  
+      .style("text-anchor", "end")
+      .attr("dx", "-.9em")
+      .attr("dy", ".15em")
+      .attr("transform", "rotate(-90)");
 
 
 }
