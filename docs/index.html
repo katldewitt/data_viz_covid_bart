@@ -8,6 +8,7 @@
 
 <label for="input county">County</label>
   <select id="select_cnty" name="select_cnty">
+    <option value="None"></option>
     <option value="Alameda">Alameda</option>
     <option value="Contra Costa">Contra Costa</option>
     <option value="San Francisco">San Francisco</option>
@@ -44,14 +45,31 @@ async function init() {
 
 
   
-//TODO: Filter data by county and year
+//TODO: Filter data by year
+
+//************************* Begin: Filter by county
 var cnty = document.getElementById('select_cnty');
-cnty.addEventListener("change", onCntyChage);
-function onCntyChage(){
-  //cnty = document.getElementById('select_cnty');
-  var value = this.value;
+cnty.addEventListener("change", onCntyChange);
+
+var allCntyButton = document.getElementById('All Counties');
+allCntyButton.addEventListener("click", showAllCnty)
+
+function onCntyChange(){
+  var selectedOption = d3.select(this).property("value");
+  //This makes only the relevant county data appear
+  circles.transition()
+    .duration(1000)
+    .style("opacity", function(d) {return d.station_cnty == selectedOption? 1 : 0}) 
+}
+function showAllCnty(){
+  circles.transition()
+    .duration(1000)
+    .style("opacity", 1);
+  cnty.property('value', 'None');
 }
 //https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
+//************************* End: Filter by county
+
 
 
 //TODO:anotations and affordances
@@ -96,7 +114,7 @@ var mouseover = function(d,i) {
 
   var svg =  d3.select("svg").append("g").attr("transform", "translate(50,50)");
 
-  svg
+  var circles = svg
     .selectAll("circle")
     .data(data)
     .enter()
@@ -106,7 +124,6 @@ var mouseover = function(d,i) {
     .attr("r",function(d,i){ return 4;})
     .style("fill",  function(d){ return myColor(d.station_cnty) })
     .style("stroke",  function(d){ return myColor(d.station_cnty) })
-    .style("opacity", function(d){ return 1})//d.station_cnty == cnty?1:0})
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave);
@@ -116,7 +133,7 @@ var mouseover = function(d,i) {
     var line = d3.line()
       .x(function(d) { return x(+getDate(d)) })
       .y(function(d) { return y(+Number(d.cnt_exits)) });
-      svg.attr("transform", "translate(50,50)")
+    svg.attr("transform", "translate(50,50)")
       .data(data)
       .enter()
       .append("path")
