@@ -26,7 +26,7 @@ The message I am trying to communicate with the narrative visualization is that 
 
 ## Scenes
 
-> What are the scenes of your narrative visualization?  How are the scenes ordered, and why
+> What are the scenes of your narrative visualization?  How are the scenes ordered, and why?
 
 ## Annotations
 
@@ -54,5 +54,14 @@ The message I am trying to communicate with the narrative visualization is that 
 
 ### TODO LIST
 
-1. Get data in a line graph separated by station
-2. Get data in a line graph separated by county
+Must haves:
+
+1. Title for chart
+2. Annotations
+3. Scene # -> State
+4. Triggers between scenes.
+
+Nice to haves:
+
+1. Get data in a line graph separated by county
+2. brushing
