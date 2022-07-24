@@ -12,10 +12,10 @@ async function init() {
     'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/main/User_Created_Data/100_ridership_data.csv');
  
   var y = d3.scaleLinear()
-            .domain([0, 55464])
+            .domain([0, 47839])
             .range([200, 0]);
   var x = d3.scaleLinear()
-            .domain([0, 47839])
+            .domain([0, 55464])
             .range([0, 200]);
   var x_axis = d3.axisBottom()
    .scale(x).tickFormat(d3.format("~s"));
@@ -24,6 +24,10 @@ async function init() {
 
    var tooltip = d3.select("#tooltip");
 
+
+   //Source: Working with dates in D3 js  https://stackoverflow.com/questions/17721929/date-format-in-d3-js
+   //var parseDate = d3.time.format("%Y/%m/%d");
+   //var formatDate = d3.timeFormat("%b-%Y");
 
 
 var mouseover = function(d,i) {
@@ -42,8 +46,8 @@ var mouseover = function(d,i) {
   }
   var mousemove = function(d,i) {
     tooltip
-        .html("Item # "+i+"is "+d.station_cnty +  " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
-
+        .html("Item # "+i+"is "+d.station_cnty +  " " + d.date + " " +d3.mouse(this)[0] +" " +d3.mouse(this)[1] )
+          ///d3.time.format("%Y/%m/%d").parse(d.date)
         .attr("class", "tooltip")
         .style("background-color", "white")
         .style("border", "solid")
