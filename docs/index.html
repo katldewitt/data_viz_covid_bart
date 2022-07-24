@@ -6,6 +6,15 @@
 </svg>
 <div id ="tooltip" opacity =0 ></div>
 
+<label for="input year">Year</label>
+  <select id="select_year" name="select_year">
+    <option value="All"></option>
+    <option value="2019">2019</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+  </select>
+
 <label for="input county">County</label>
   <select id="select_cnty" name="select_cnty">
     <option value="None"></option>
@@ -24,7 +33,7 @@ async function init() {
     'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/feat/vis-narrative/User_Created_Data/103_monthly_ridership_data.csv');
  
   var y = d3.scaleLinear()
-            .domain([0, 9550000])
+            .domain([0, 9550000]) //TODO: adjust max dynamically?
             .range([200, 0]);
 
   //Source: Working with dates in D3 js https://stackoverflow.com/questions/8301531/dealing-with-dates-on-d3-js-axis
@@ -46,6 +55,24 @@ async function init() {
 
   
 //TODO: Filter data by year
+//************************* Begin: Filter by year
+var year_html = document.getElementById('select_year');
+year_html.addEventListener("change", onYearChange);
+
+function onYearChange(){
+  var selectedYear = d3.select(this).property("value");
+  var selectedCnty = d3.select(cnty).property("value");
+  //This makes only the relevant county data appear
+  circles.transition()
+    .duration(1000)
+    .style("opacity", function(d) {
+      if (selectedCnty == "None") {
+        return d.year == selectedYear ? 1 : 0;
+      }
+      return d.year == selectedYear && d.station_cnty == selectedCnty ? 1 : 0;
+    }) 
+}
+//************************* End: Filter by year
 
 //************************* Begin: Filter by county
 var cnty = document.getElementById('select_cnty');
@@ -55,17 +82,22 @@ var allCntyButton = document.getElementById('All Counties');
 allCntyButton.addEventListener("click", showAllCnty)
 
 function onCntyChange(){
-  var selectedOption = d3.select(this).property("value");
+  var selectedCnty = d3.select(this).property("value");
+  var selectedYear = d3.select(year_html).property("value");
   //This makes only the relevant county data appear
   circles.transition()
     .duration(1000)
-    .style("opacity", function(d) {return d.station_cnty == selectedOption? 1 : 0}) 
+    .style("opacity", function(d) {
+      if (selectedYear == "All") {
+        return  d.station_cnty == selectedCnty  ? 1 : 0;
+      }
+      return d.year == selectedYear && d.station_cnty == selectedCnty ? 1 : 0;
+    }) 
 }
 function showAllCnty(){
   circles.transition()
     .duration(1000)
     .style("opacity", 1);
-  cnty.property('value', 'None');
 }
 //https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 //************************* End: Filter by county
