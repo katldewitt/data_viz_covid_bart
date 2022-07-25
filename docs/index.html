@@ -5,8 +5,19 @@
 <svg width=650 height=300>
 </svg>
 <div></div>
-<label for="input year">Year</label>
-  <select id="select_year" name="select_year">
+
+<label for="input scene" id="input_scene">Scene</label>
+  <select id="select_scene" name="select_scene">
+    <option value="0">0. Overview</option>
+    <option value="1">1. Prior to COVID</option>
+    <option value="2">2. The Pandemic</option>
+    <option value="3">3. Vaccines and Year 2</option>
+    <option value="4">4. Beginning of 2022</option>
+    <option value="5">5. Explore the Data</option>
+  </select>
+
+<label for="input year"  style="display:none">Year</label>
+  <select id="select_year" name="select_year"  style="display:none">
     <option value=".*"></option>
     <option value="2019">2019</option>
     <option value="2020">2020</option>
@@ -14,8 +25,8 @@
     <option value="2022">2022</option>
   </select>
 
-<label for="input county">County</label>
-  <select id="select_cnty" name="select_cnty">
+<label for="input county"  style="display:none">County</label>
+  <select id="select_cnty" name="select_cnty"  style="display:none">
     <option value=".*"></option>
     <option value="Alameda">Alameda</option>
     <option value="Contra Costa">Contra Costa</option>
@@ -23,9 +34,11 @@
     <option value="San Mateo">San Mateo</option>
     <option value="Santa Clara">Santa Clara</option>
    </select>
-   <button id="All Counties">
+   <button id="All Counties"  style="display:none">
    All Counties
    </button>
+
+
 <script>
 async function init() {
       const data = await d3.csv(
@@ -50,8 +63,7 @@ async function init() {
    .scale(y).tickFormat(d3.format("~s"));
 
 
-  
-//TODO: Filter data by year
+
 //************************* Begin: Filter by year
 var year_html = document.getElementById('select_year');
 year_html.addEventListener("change", onYearChange);
@@ -97,6 +109,84 @@ function showAllCnty(){
 }
 //https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 //************************* End: Filter by county
+
+//************************* Begin: Filter by scene
+
+//cnty.attr("visibility", "hidden");
+//year_html.attr("visibility", "hidden");
+//allCntyButton.attr("visibility", "hidden");
+
+var scene_html = document.getElementById('select_scene');
+scene_html.addEventListener("change", changeScene);
+
+function changeScene(){
+  var selectedScene = d3.select(this).property("value");
+  
+  //Turn off self exploration if not row 5
+  d3.selectAll('label').style("display","none");
+  d3.selectAll('select').style("display","none");
+  d3.selectAll('button').style("display","none");
+
+  //Don't turn off scene selector
+  d3.select(this).style("display", "inline-block");
+  d3.select('#input_scene').style("display", "inline-block");
+
+  //TODO: overview scene params
+
+  if (selectedScene == 1) {
+    //This makes only the relevant county data appear
+    circles.transition()
+      .duration(1000)
+      .style("opacity", function(d) {
+      //I used regex to filter the data. The blank values match ALL counties/years.
+      var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+      var matchYear = new RegExp("2019").test(d.year);
+      return matchCnty && matchYear ? 1 : 0;
+    }) 
+  }
+  else if (selectedScene == 2) {
+    //This makes only the relevant county data appear
+    circles.transition()
+      .duration(1000)
+      .style("opacity", function(d) {
+      //I used regex to filter the data. The blank values match ALL counties/years.
+      var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+      var matchYear = new RegExp("2020").test(d.year);
+      return matchCnty && matchYear ? 1 : 0;
+    }) 
+  }
+  else if (selectedScene == 3) {
+    //This makes only the relevant county data appear
+    circles.transition()
+      .duration(1000)
+      .style("opacity", function(d) {
+      //I used regex to filter the data. The blank values match ALL counties/years.
+      var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+      var matchYear = new RegExp("2021").test(d.year);
+      return matchCnty && matchYear ? 1 : 0;
+    }) 
+  }
+  else if (selectedScene == 4) {
+    //This makes only the relevant county data appear
+    circles.transition()
+      .duration(1000)
+      .style("opacity", function(d) {
+      //I used regex to filter the data. The blank values match ALL counties/years.
+      var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+      var matchYear = new RegExp("2022").test(d.year);
+      return matchCnty && matchYear ? 1 : 0;
+    }) 
+  }
+  else if (selectedScene == 5) {
+    d3.selectAll('label').style("display","inline-block");
+    d3.selectAll('select').style("display","inline-block");
+    d3.selectAll('button').style("display","inline-block");
+    circles.transition()
+      .duration(1000)
+      .style("opacity", 1);
+  }
+}
+//************************* End: Filter by year
 
 
 
