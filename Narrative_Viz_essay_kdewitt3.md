@@ -16,11 +16,14 @@
 1. [Annotations](#annotations)
 1. [Parameters](#parameters)
 1. [Triggers](#triggers)
-1. [Conclusions](#conclusion)
+1. [Conclusion](#conclusion)
+1. [Grading Reference](#grading-reference)
 
 ## Introduction
 
 For my narrative visualization, I created a story about public transit ridership in the California Bay Area as influenced by the pandemic using D3 in Javascript. Based on the information I have learned in CS416, I designed a narrative that allows me to communicate my point while also giving the user the freedom to explore the data.
+
+Please note that the [grading reference section](#grading-reference) is a tool that will assist you with grading my responses. For ease, I will link back to the appropriate section of my essay; highlight chunks of code; or include screenshots of the visualization.
 
 > [Click here to go back to the table of contents.](#table-of-contents)
 
@@ -90,6 +93,88 @@ The most basic triggers I utilized to change state are dropdowns and buttons in 
 ## Conclusion
 
 > [Click here to go back to the table of contents.](#table-of-contents)
+
+## Grading Reference
+
+The goal of this section is to check all the boxes to make your life (i.e. the grader) easier. Please feel free to use the below table of contents.
+
+**Grading Table of Contents**
+
+<ol type="A">
+  <li>URL</li>
+  <li>PDF Essay</li>
+  <li>Narrative Structure</li>
+  <li>Visual Structure</li>
+  <li>Scenes and visual Ordering</li>
+  <li>Annotations</li>
+  <li>Parameters and State</li>
+  <li>Triggers</li>
+</ol>
+
+
+### **A. What is the URL of your narrative visualization?**
+
+> [1 point] Does the URL connect to a functioning web page?
+
+### **B. Upload a PDF file essay describing your narrative visualization as required by the assignment instructions.**
+
+> [5 points] Does the essay state what messaging was intended by the narrative visualization?
+
+Yes, see [my section on Messaging above](#messaging).
+
+### **C. Narrative Structure**
+
+> [2 points] Does the essay indicate which structure the narrative visualization was designed to follow (martini glass, interactive slide show or drop-down story)?
+
+> [3 points] Does the narrative visualization follow that structure?
+
+### **D. Visual Structure**
+
+> [2 points] Does the essay indicate what visual structure is used for each scene?
+
+> [1 point] Does the essay indicate how the visual structure ensures the viewer can understand the data?
+
+> [1 point] Does the essay indicate how highlighting is used to get the viewer to focus on the important parts of the data in each scene?
+
+> [1 point] Does the essay indicate how the visual structure helps the viewer transition to other scenes, to understand how the data connects to the data in other scenes?
+
+### **E. Scenes and Visual Ordering**
+
+> [2 points] Does the essay identify the scenes of the narrative visualization?
+
+> [1 point] Does the essay discuss ordering (e.g. the order of elements in a chart or the ordering of scenes)?
+
+> [2 point] Do the charts used as scenes effectively present the data?
+
+### **F. Annotations**
+
+> [2 points] Does the essay discuss annotations?
+
+> [1 point] Does the essay discuss a template for the annotations?
+
+> [2 points] Are the annotations in the narrative visualization effective and consistent?
+
+### **G. Parameters and States**
+
+> [1 point] Does the essay identify the parameters of the narrative visualization?
+
+> [1 point] Does the essay identify the states of the narrative visualization?
+
+> [1 point] Does the essay indicate how are the parameters are used to define the state and each scene?
+
+> [1 point] Does the narrative visualization use parameters to control its state?
+
+> [1 point] Does the narrative visualization use parameters to control each scene?
+
+### **H. Triggers**
+
+> [2 points] Does the essay indicate the triggers that connect user actions to changes of state in the narrative visualization?
+
+> [1 point] Does the essay indicate what affordances are provided to the user to communicate to them what options are available to them in the narrative visualization?
+
+> [1 point] Does the narrative visualization implement and respond to user events properly?
+
+> [1 point] Does the narrative visualization make any effort at all to communicate what options are available to the user?
 
 ### TODO LIST
 
