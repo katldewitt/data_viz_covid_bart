@@ -1,5 +1,6 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 <style> circle {fill: lightblue; stroke: black;} </style>
 <body onload='init()'>
 <svg width=650 height=300>
@@ -41,6 +42,7 @@
 
 <script>
 async function init() {
+    //Load the data
       const data = await d3.csv(
     'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/feat/vis-narrative/User_Created_Data/103_monthly_ridership_data.csv');
  
@@ -53,7 +55,7 @@ async function init() {
     return new Date(d.date);
   }
   var x = d3.scaleTime()
-              .domain([new Date("1/1/2019"), new Date("5/2/2022")])
+              .domain([new Date("1/1/2019"), new Date("4/1/2022")])
               .range([0, 600]);
 
   var x_axis = d3.axisBottom()
@@ -62,6 +64,175 @@ async function init() {
   var y_axis = d3.axisLeft()
    .scale(y).tickFormat(d3.format("~s"));
 
+
+  //----------------Start annotations
+  //Source: for annotation dates https://en.wikipedia.org/wiki/COVID-19_vaccination_in_the_United_States
+
+  const scene0Annotation = [
+  //First annotation
+  { 
+    note:{
+      label: "Ridership Plummets due to COVID19 Pandemic",
+      title: "March 2020",
+      wrap: 150
+    },
+    color: ["red"],
+    x: x(new Date("2/1/2020")),
+    y: 0,
+    dy: 50,
+    dx: 70,
+    subject: {
+      width: 30,
+      height: 200
+    },
+    type: d3.annotationCalloutRect,
+  }
+];
+  const scene1Annotation = [
+  //First annotation
+  { //feb only has 28 dates, 19 working days
+    note: {
+      label: "Slight dip in ridership",
+      title: "Feb 2019"
+    },
+    color: ["green"],
+    x: x(new Date("2/1/2019")),
+    y: y(8000000),
+    dy: 25,
+    dx: 10
+  },
+  //Second annotation
+  { //holiday season results in lower ridership
+    note:{
+      label: "Decreased Ridership due to Holidays",
+      title: "Nov/Dec 2019",
+      wrap: 100
+    },
+    color: ["green"],
+    x: x(new Date("11/15/2019")),
+    y: y(8000000),
+    dy: 50,
+    dx: 20,
+    subject: {
+      raidus: 50,
+      radiusPadding: 5
+    },
+    type: d3.annotationCalloutCircle,
+  }
+];
+
+  const scene2Annotation = [
+  //First annotation
+  { 
+    note: {
+      label: "Bay Area Counties Begin Lockdown",
+      title: "March 2020"
+    },
+    color: ["red"],
+    x: x(new Date("3/1/2020")),
+    y: y(3500000),
+    dy: -10,
+    dx: -10
+  },
+  //Second annotation
+  {
+    note:{
+      label: "FDA Grants Emergency Authorization for 2 vaccines", //Pfizer–BioNTech and Moderna 
+      title: "Dec 2020",
+      wrap: 100
+    },
+    color: ["blue"],
+    x: x(new Date("12/1/2020")),
+    y: y(1000000),
+    dy: -25,
+    dx: 10
+  }
+];
+
+
+const scene3Annotation = [
+ //first annotation
+ {
+    note:{
+      label: "All People 16+ Vaccine Eligible",
+      title: "April 2021",
+      wrap: 100
+    },
+    color: ["blue"],
+    x: x(new Date("4/1/2021")),
+    y: y(1200000),
+    dy: -20,
+    dx: -40
+  },
+  //second annotation
+  {
+    note:{
+      label: "Adolescents 12-15 Vaccine Eligible",
+      title: "May 2021",
+      wrap: 100
+    },
+    color: ["blue"],
+    x: x(new Date("5/1/2021")),
+    y: y(1400000),
+    dy: -50,
+    dx: 10
+  },
+  //third annotation
+  {
+    note:{
+      label: "Kids 5-11 Vaccine Eligible",
+      title: "Oct 2021",
+      wrap: 100
+    },
+    color: ["blue"],
+    x: x(new Date("10/1/2021")),
+    y: y(2300000),
+    dy: -30,
+    dx: 30
+  }
+];
+
+const scene4Annotation = [
+  //First annotation
+  { 
+    note:{
+      label: "Return to Office?",
+      title: "2022",
+      wrap: 100
+    },
+    color: ["green"],
+    x: x(new Date("2/1/2022")),
+    y: y(2300000),
+    dy: -50,
+    dx: -50,
+    subject: {
+      radius: 35,
+      radiusPadding: 5
+    },
+    type: d3.annotationCalloutCircle,
+  }
+];
+
+//Helps to make an annotation w/ no opacity as a starter
+makeAnnotationHelper = function(annotation){
+  const makeAnnotations = d3.annotation()
+    .annotations(annotation)
+  return d3.select("svg")
+  .append("g")
+  .call(makeAnnotations)
+  .style("opacity", 0)
+  .attr("transform", "translate(50,50)"); 
+}
+
+var ant0 = makeAnnotationHelper(scene0Annotation);
+var ant1 = makeAnnotationHelper(scene1Annotation);
+var ant2 = makeAnnotationHelper(scene2Annotation);
+var ant3 = makeAnnotationHelper(scene3Annotation);
+var ant4 = makeAnnotationHelper(scene4Annotation);
+
+//Exception: Antotation of scene 0 starts as 1
+ant0.transition().duration(3000).style("opacity", 1);
+//------------------------------end annotation
 
 
 //************************* Begin: Filter by year
@@ -133,16 +304,26 @@ function changeScene(){
 
   //TODO: overview scene params
 
+  //Anotations fade if not relevant
+  ant0.transition().duration(1000).style("opacity", 0);
+  ant1.transition().duration(1000).style("opacity", 0);
+  ant2.transition().duration(1000).style("opacity", 0);
+  ant3.transition().duration(1000).style("opacity", 0);
+  ant4.transition().duration(1000).style("opacity", 0);
+
   if (selectedScene == 1) {
     //This makes only the relevant county data appear
     circles.transition()
       .duration(1000)
       .style("opacity", function(d) {
-      //I used regex to filter the data. The blank values match ALL counties/years.
       var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
       var matchYear = new RegExp("2019").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
     }) 
+
+    //Add annotation to the chart
+    ant1.transition().duration(1000).style("opacity", 1);
+    
   }
   else if (selectedScene == 2) {
     //This makes only the relevant county data appear
@@ -153,7 +334,12 @@ function changeScene(){
       var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
       var matchYear = new RegExp("2020").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
-    }) 
+    });
+    
+    //Add annotation to the chart
+    ant2.transition().duration(1000).style("opacity", 1);
+      //https://towardsdatascience.com/how-to-improve-d3-js-graphs-with-annotations-252fbb9c5bb5
+
   }
   else if (selectedScene == 3) {
     //This makes only the relevant county data appear
@@ -164,7 +350,9 @@ function changeScene(){
       var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
       var matchYear = new RegExp("2021").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
-    }) 
+    });
+    ant3.transition().duration(1000).style("opacity", 1);
+ 
   }
   else if (selectedScene == 4) {
     //This makes only the relevant county data appear
@@ -176,21 +364,31 @@ function changeScene(){
       var matchYear = new RegExp("2022").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
     }) 
+    
+    //Add annotation to the chart
+    ant4.transition().duration(1000).style("opacity", 1);
   }
-  else if (selectedScene == 5) {
-    d3.selectAll('label').style("display","inline-block");
-    d3.selectAll('select').style("display","inline-block");
-    d3.selectAll('button').style("display","inline-block");
+  else if (selectedScene == 5 ) {
     circles.transition()
       .duration(1000)
       .style("opacity", 1);
+      d3.selectAll('label').style("display","inline-block");
+      d3.selectAll('select').style("display","inline-block");
+      d3.selectAll('button').style("display","inline-block");
+  }
+  else if (selectedScene == 0) {
+    circles.transition()
+      .duration(1000)
+      .style("opacity", 1);
+    //Add annotation to the chart
+    ant0.transition().duration(1000).style("opacity", 1);
   }
 }
 //************************* End: Filter by year
 
 
 
-//TODO:anotations and affordances
+//TODO: affordances
 
 var mouseover = function(d,i) {
   //highlights the data point
@@ -252,7 +450,6 @@ var mouseover = function(d,i) {
       .attr("dx", "-.9em")
       .attr("dy", ".15em")
       .attr("transform", "rotate(-90)");
-
 
 }
 </script>
