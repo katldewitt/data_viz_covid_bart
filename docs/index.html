@@ -88,6 +88,23 @@ async function init() {
       height: 200
     },
     type: d3.annotationCalloutRect,
+  },
+  //Second annotation
+  { 
+    note:{
+      label: "to see details",
+      title: "Hover Over Points",
+      wrap: 150
+    },
+    color: ["blue"],
+    x: x(new Date("4/1/2021")),
+    y: y(1200000),
+    dy: -33,
+    dx: 20,
+    subject: {
+      width: 30,
+      height: 200
+    },
   }
 ];
   const scene1Annotation = [
@@ -439,21 +456,53 @@ function changeScene(){
 }
 //************************* End: Filter by scene
 
-  
-//TODO: affordances
+//~~~~~~~~~~~~~~~~~~~~~~~Begin tooltip
+var tooltip = d3.select("body").append("div")   
+        .attr("id", "tooltip")               
+        .style("opacity", 0)
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("position", "absolute");
 
-/*var mouseover = function(d,i) {
+var mouseover = function(d,i) {
   //highlights the data point
+  if(d3.select(this).style("opacity") != 0) {
+
     d3.select(this) 
       .style("stroke", "black")
       .style("opacity", 1)
+    }
+    d3.select("#tooltip")
+      .style("opacity",1)
+      .html("On " + humanReadableDate + ", " + d.station_cnty + "<br> had " + d.cnt_riders + " total riders")
+      ;
   }
+
   var mousemove = function(d,i) {
+    if(d3.select(this).style("opacity") != 0) {
+    var humanReadableDate = (getDate(d).getMonth() + 1) + '/' + getDate(d).getFullYear();
+
+    tooltip
+      .html("On " + humanReadableDate + ",<br>" + d.station_cnty + " had " + d.cnt_riders + " total riders")
+      .style("left", d3.event.pageX + 'px')
+      .style("top", d3.event.pageY + 'px');
+    }
   }
   var mouseleave = function(d,i) {
-    d3.select(this)
-      .style("stroke", "transparent")
-  }*/
+    if(d3.select(this).style("opacity") != 0) {
+
+    d3.select(this) 
+      .style("stroke", "none")
+      .style("opacity", 1)
+    }
+
+    d3.select("#tooltip").style("opacity",0).text("TEST")
+  }
+
+  //~~~~~~~~~~~~~~~~~~~~~~~End tooltip
 
   //Group lines by color
   var allGroup = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
@@ -470,7 +519,7 @@ function changeScene(){
     .style("font-size", "20px")
     .attr('text-anchor', 'middle').text('How did Bay Area Public Transit Ridership Change due to the Pandemic?')
 
-  //Ned too group the data
+  //Need too group the data for line graph
   var grouper = d3.nest()
     .key(function(d) {return d.station_cnty})
     .entries(data);
@@ -494,12 +543,12 @@ function changeScene(){
     .append("circle")
     .attr("cx",function(d,i){ return  x(getDate(d));})
     .attr("cy",function(d,i){ return y(Number(d.cnt_riders));})
-    .attr("r",function(d,i){ return 4;})
+    .attr("r", 4.5)
     .style("fill",  function(d){ return myColor(d.station_cnty) })
     .style("stroke",  function(d){ return myColor(d.station_cnty) })
-    /*.on("mouseover", mouseover)
+    .on("mouseover", mouseover)
     .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)*/;
+    .on("mouseleave", mouseleave);
 
     d3.select("svg").append("g").attr("transform", "translate(50,50)")
      .call(y_axis);
