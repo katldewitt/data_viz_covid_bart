@@ -269,5 +269,3 @@ Nice to haves:
 
 1. Tooltip
 2. legend
-3. Y axis label
-4. Text to describe the scenes

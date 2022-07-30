@@ -467,6 +467,7 @@ function changeScene(){
   var titleText = svg.append('text').attr('class','title')
     .attr('x', 300)
     .attr('y', -20)
+    .style("font-size", "20px")
     .attr('text-anchor', 'middle').text('How did Bay Area Public Transit Ridership Change due to the Pandemic?')
 
   //Ned too group the data
@@ -502,6 +503,16 @@ function changeScene(){
 
     d3.select("svg").append("g").attr("transform", "translate(50,50)")
      .call(y_axis);
+
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 6)
+    .attr("x", -50)
+    .attr("dy", -45)
+    .attr("transform", "rotate(-90)")
+    .text("Total Ridership")
+    .style("font-size", "14px");
 
      d3.select("svg").append("g").attr("transform", "translate(50,250)")
      .call(x_axis)
