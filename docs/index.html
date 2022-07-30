@@ -39,6 +39,7 @@
    All Counties
    </button>
 
+<div id="descriptions" ><b>Overview of Bay Area Public Transit Ridership in a time of COVID</b><br>Welcome! For my narrative visualization, I created a story about public transit ridership in the California Bay Area as influenced by the pandemic using D3 in Javascript.<br> We will be investigating Bay Area Rapid Transit (BART) ridership's significant decrease due to the COVID19 pandemic. In the above graph, you will see a line for each of the 5 Bay Area counties that charts ridership in millions between 2019 and March 2022.</div>
 
 <script>
 async function init() {
@@ -59,10 +60,11 @@ async function init() {
               .range([0, 600]);
 
   var x_axis = d3.axisBottom()
-
    .scale(x).ticks(d3.timeMonth, 1).tickFormat(d3.timeFormat('%b-%Y'));
   var y_axis = d3.axisLeft()
    .scale(y).tickFormat(d3.format("~s"));
+
+  var description = document.getElementById("descriptions");
 
 
   //----------------Start annotations
@@ -294,17 +296,13 @@ function showAllCnty(){
     .style("opacity", 1);
 
   titleText.transition().duration(1000).text("Explore Bay Area Ridership!")
-
+  linesInGraph.transition()
+      .duration(1000).style("opacity", 1); 
 }
 //https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 //************************* End: Filter by county
 
 //************************* Begin: Filter by scene
-
-//cnty.attr("visibility", "hidden");
-//year_html.attr("visibility", "hidden");
-//allCntyButton.attr("visibility", "hidden");
-
 var scene_html = document.getElementById('select_scene');
 scene_html.addEventListener("change", changeScene);
 
@@ -327,6 +325,9 @@ function changeScene(){
   ant3.transition().duration(1000).style("opacity", 0);
   ant4.transition().duration(1000).style("opacity", 0);
 
+  //fade the description
+  
+  description.innerHTML ="";
 
 
   //Make line graph appear
@@ -352,6 +353,8 @@ function changeScene(){
     //Change the title
     titleText.transition().duration(1000).text("Ridership in San Francisco in 2019")
     
+    //Change the description
+    description.innerHTML ="<b>Ridership in San Francisco Prior to the pandemic</b><br> To explore the impact of the pandemic on public transit ridership, we will focus on ridership in San Francisco in particular. Let's first review the ridership data in 2019 to establish a typical year of public transit ridership.";
   }
   else if (selectedScene == 2) {
     //This makes only the relevant county data appear
@@ -367,7 +370,9 @@ function changeScene(){
     //Add annotation to the chart
     ant2.transition().duration(1000).style("opacity", 1);
       //https://towardsdatascience.com/how-to-improve-d3-js-graphs-with-annotations-252fbb9c5bb5
-      titleText.transition().duration(1000).text("Ridership in San Francisco in 2020")
+   titleText.transition().duration(1000).text("Ridership in San Francisco in 2020");
+    //Change the description
+    description.innerHTML ="<b>The Pandemic Hits San Francisco</b><br>Everything changed in March 2020, when the 5 Bay Area counties issued a shelter in place order to contain the spread of COVID19. Ridership dropped dramatically following March 2020 as the pandemic raged across the county. Incredibly, we also got vaccines within a year of the shelter in place order.";
 
   }
   else if (selectedScene == 3) {
@@ -382,7 +387,8 @@ function changeScene(){
     });
     ant3.transition().duration(1000).style("opacity", 1);
     titleText.transition().duration(1000).text("Ridership in San Francisco in 2021")
- 
+    description.innerHTML ="<b>Vaccines Arrive for San Francisco Riders</b><br>In early 2021, vaccines were distributed to health care providers and essential workers. Starting in April, all San Francisco residents were eligible to be vaccinated. Vaccines for youth became available later in the year. It is interesting to note that the timing of the availability of vaccines did not correlate with a large uptick in ridership. Instead, a gradual increase in ridership occurred throughout 2021.";
+
   }
   else if (selectedScene == 4) {
     //This makes only the relevant county data appear
@@ -398,6 +404,7 @@ function changeScene(){
     //Add annotation to the chart
     ant4.transition().duration(1000).style("opacity", 1);
     titleText.transition().duration(1000).text("Ridership in San Francisco in 2022")
+    description.innerHTML ="<b>San Franciscans Head Back to the Office?</b><br>In spring of 2022 the Omicron variant caused many companies to delay their return to office plans. Even with the return to office plans being formalized in late spring, public transit ridership has changed significantly due to the Pandemic. This may be due to remote workers who previously commuted to work in SF as well as other factors like an increased reliance on cars.";
 
   }
   else if (selectedScene == 5 ) {
@@ -412,6 +419,9 @@ function changeScene(){
 
     linesInGraph.transition()
       .duration(1000).style("opacity", 1) ;
+    
+    description.innerHTML ="<b>Explore Public Transit Ridership by County and State</b><br>At this point, I invite you to explore the data via county and state using the drop downs above.";
+
   }
   else if (selectedScene == 0) {
     circles.transition()
@@ -432,7 +442,7 @@ function changeScene(){
   
 //TODO: affordances
 
-var mouseover = function(d,i) {
+/*var mouseover = function(d,i) {
   //highlights the data point
     d3.select(this) 
       .style("stroke", "black")
@@ -443,7 +453,7 @@ var mouseover = function(d,i) {
   var mouseleave = function(d,i) {
     d3.select(this)
       .style("stroke", "transparent")
-  }
+  }*/
 
   //Group lines by color
   var allGroup = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
@@ -486,13 +496,9 @@ var mouseover = function(d,i) {
     .attr("r",function(d,i){ return 4;})
     .style("fill",  function(d){ return myColor(d.station_cnty) })
     .style("stroke",  function(d){ return myColor(d.station_cnty) })
-    .on("mouseover", mouseover)
+    /*.on("mouseover", mouseover)
     .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave);
-
-    
-      
-
+    .on("mouseleave", mouseleave)*/;
 
     d3.select("svg").append("g").attr("transform", "translate(50,50)")
      .call(y_axis);
@@ -507,8 +513,5 @@ var mouseover = function(d,i) {
 
 }
 </script>
-<p>EXAMPLE https://github.com/mbtaviz/mbtaviz.github.io/</p>
-
-
 </body>
 </html>
