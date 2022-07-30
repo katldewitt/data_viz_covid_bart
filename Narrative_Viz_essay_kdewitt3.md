@@ -45,11 +45,16 @@ When designing my narrative, I decided to follow a Martini Glass structure to wa
 
 ## Visual Structure
 
-> What visual structure is used for each scene? How does it ensure the viewer can understand the data and navigate the scene? How does it highlight to urge the viewer to focus on the important parts of the data in each scene? How does it help the viewer transition to other scenes, to understand how the data connects to the data in other scenes?
+> What visual structure is used for each scene? How does it ensure the viewer can understand the data and navigate the scene? How does it highlight to urge the viewer to focus on the important parts of the data in each scene? How does it help the viewer transition to other scenes, to understand how the data 
+connects to the data in other scenes?
 
 I utilized the same axis structure throughout the visual narrative. While this may make some data more compressed (see Santa Clara, which has only 2 BART stations), it allows the viewer to stay oriented to the scale of the decrease in ridership. Additionally, I utilized gentle transitions of the points to ensure that the viewer did not get disoriented when switching data points between scenes.
 
-- would like a train to transition to other scenes...
+![Scene 0 Screenshot](scene1_screenshot.png)
+
+For example, switching between the overview scene (above) to the scene showing the pandemic (below), I use the same axes, same colors, and keep a faint outline of the line graph for San Francisco. In the below screenshot, I draw the viewer's attention to the data points in focus through annotations, removing other counties, and changing the title.
+
+![Scene 2 Screenshot](scene2_screenshot.png)
 
 > [Click here to go back to the table of contents.](#table-of-contents)
 
@@ -72,7 +77,9 @@ TODO: Screenshots.
 
 > What are the parameters of the narrative visualization? What are the states of the narrative visualization? How are the parameters used to define the state and each scene?
 
-I used the parameters `scene`, `county`, and `year` to control the narrative visualization. Scene worked as a state machine (TODO: is this language right?), which drove the values of `county` and `year` for scenes 1-4. In scene 5, I revealed a dropdown box for the user to select the `county` and `year` of interest.
+I used the parameters `scene`, `county`, and `year` to control the narrative visualization. Scene worked as a state machine, which drove the values of `county` and `year` for scenes 1-4. In scene 5, I revealed a dropdown box for the user to select the `county` and `year` of interest.
+
+!TODO: more writing here
 
 > [Click here to go back to the table of contents.](#table-of-contents)
 
@@ -115,6 +122,8 @@ The goal of this section is to check all the boxes to make your life (i.e. the g
 ### **A. What is the URL of your narrative visualization?**
 
 > [1 point] Does the URL connect to a functioning web page?
+
+Yes. TODO: add link.
 
 ### **B. Upload a PDF file essay describing your narrative visualization as required by the assignment instructions.**
 
@@ -178,14 +187,7 @@ Yes, see [my section on Messaging above](#messaging).
 
 ### TODO LIST
 
-Must haves:
-
-1. Title for chart
-2. Annotations
-3. Scene # -> State
-4. Triggers between scenes.
-
 Nice to haves:
 
-1. Get data in a line graph separated by county
+1. Tooltip
 2. brushing

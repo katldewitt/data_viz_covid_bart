@@ -95,7 +95,7 @@ async function init() {
       label: "Slight dip in ridership",
       title: "Feb 2019"
     },
-    color: ["green"],
+    color: ["blue"],
     x: x(new Date("2/1/2019")),
     y: y(8000000),
     dy: 25,
@@ -108,7 +108,7 @@ async function init() {
       title: "Nov/Dec 2019",
       wrap: 100
     },
-    color: ["green"],
+    color: ["blue"],
     x: x(new Date("11/15/2019")),
     y: y(8000000),
     dy: 50,
@@ -200,7 +200,7 @@ const scene4Annotation = [
       title: "2022",
       wrap: 100
     },
-    color: ["green"],
+    color: ["blue"],
     x: x(new Date("2/1/2022")),
     y: y(2300000),
     dy: -50,
@@ -423,15 +423,11 @@ function changeScene(){
     linesInGraph.transition()
       .duration(1000).style("opacity", 1) ;
     
-    titleText.transition().duration(1000).text("Bay Area Public Transit Ridership")
+    titleText.transition().duration(1000).text("How did Bay Area Public Transit Ridership Change due to the Pandemic?")
 
   }
 }
 //************************* End: Filter by scene
-
-
-//TODO: Title
-
 
   
 //TODO: affordances
@@ -461,7 +457,7 @@ var mouseover = function(d,i) {
   var titleText = svg.append('text').attr('class','title')
     .attr('x', 300)
     .attr('y', -20)
-    .attr('text-anchor', 'middle').text('Bay Area Public Transit Ridership')
+    .attr('text-anchor', 'middle').text('How did Bay Area Public Transit Ridership Change due to the Pandemic?')
 
   //Ned too group the data
   var grouper = d3.nest()
