@@ -68,8 +68,28 @@ TODO: Screenshots.
 
 > What template was followed for the annotations, and why that template? How are the annotations used to support the messaging? Do the annotations change within a single scene, and if so, how and why
 
-- TODO: template definition?
-- Annotation: text describing scene
+I used the `d3-annotations` package and standardized my template for annotations. Below is an example template from scene 1, where I discuss the dip in ridership found in Feb 2019.
+
+```
+{
+    note: {
+      label: "Slight dip in ridership",
+      title: "Feb 2019"
+    },
+    color: ["blue"],
+    x: x(new Date("2/1/2019")),
+    y: y(8000000),
+    dy: 25,
+    dx: 10
+}
+```
+
+In creating the annotation template, I used the principles of data visualization to communicate my message. I used a consistent color scheme (blue for general notes and red for the start of the COVID era to highlight this time point). The consistent color scheme ensures that the user does not become disoriented. Where possible, I had the annotation not cross the line graph of ridership. Additionally, I used the title field as the date (or x value) and the label as the reason this point is highlighted. In order to place the annotations where I wanted, I manually adjusted x, y, dy, and dx.
+
+In on top of the template, I used callouts in 3 specific locations to communicate my message. The first was in scene 0 to emphasize the drop in ridership in March 2020. The second was in scene 1 to provide explanation to the ridership decrease in the November and December; since the explanation applied to two months, it was appropriate to use a callout. Finally, in scene 4, I have an annotation with a callout about return to office for the early months of 2022.
+
+As mentioned above, in scene 0, I have one annotation that appears after a 3 second delay. This change in annotation within a scene is meant to allow the user to first review the graph as a whole then have their attention drawn to the area I want them to focus on.
+
 
 > [Click here to go back to the table of contents.](#table-of-contents)
 
