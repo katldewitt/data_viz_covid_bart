@@ -112,7 +112,7 @@ async function init() {
     x: x(new Date("11/15/2019")),
     y: y(8000000),
     dy: 50,
-    dx: 20,
+    dx: 70,
     subject: {
       raidus: 50,
       radiusPadding: 5
@@ -271,7 +271,14 @@ function onCntyChange(){
       var matchCnty = new RegExp(selectedCnty).test(d.station_cnty);
       var matchYear = new RegExp(selectedYear).test(d.year);
       return matchCnty && matchYear ? 1 : 0;
-    }) 
+    });
+
+    
+    linesInGraph.transition()
+      .duration(1000).style("opacity", function(d) {
+      var matchCnty = new RegExp(selectedCnty).test(d.key);
+      return matchCnty ? .75 : 0;
+    }) ;
 }
 function showAllCnty(){
   circles.transition()
@@ -311,6 +318,13 @@ function changeScene(){
   ant3.transition().duration(1000).style("opacity", 0);
   ant4.transition().duration(1000).style("opacity", 0);
 
+  //Make line graph appear
+  linesInGraph.transition()
+      .duration(1000).style("opacity", function(d) {
+      var matchCnty = new RegExp("San Francisco").test(d.key);
+      return matchCnty ? .75 : 0;
+    }) ;
+
   if (selectedScene == 1) {
     //This makes only the relevant county data appear
     circles.transition()
@@ -319,8 +333,8 @@ function changeScene(){
       var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
       var matchYear = new RegExp("2019").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
-    }) 
-
+    }) ;
+     
     //Add annotation to the chart
     ant1.transition().duration(1000).style("opacity", 1);
     
@@ -375,6 +389,10 @@ function changeScene(){
       d3.selectAll('label').style("display","inline-block");
       d3.selectAll('select').style("display","inline-block");
       d3.selectAll('button').style("display","inline-block");
+
+      
+    linesInGraph.transition()
+      .duration(1000).style("opacity", 1) ;
   }
   else if (selectedScene == 0) {
     circles.transition()
@@ -382,9 +400,12 @@ function changeScene(){
       .style("opacity", 1);
     //Add annotation to the chart
     ant0.transition().duration(1000).style("opacity", 1);
+
+    linesInGraph.transition()
+      .duration(1000).style("opacity", 1) ;
   }
 }
-//************************* End: Filter by year
+//************************* End: Filter by scene
 
 
 
@@ -411,6 +432,25 @@ var mouseover = function(d,i) {
 
   var svg =  d3.select("svg").append("g").attr("transform", "translate(50,50)");
 
+
+  //TODO: get scatter plot working https://d3-graph-gallery.com/graph/connectedscatter_multi.html
+  //Ned too group the data
+  var grouper = d3.nest()
+    .key(function(d) {return d.station_cnty})
+    .entries(data);
+  var line = d3.line()
+      .x(function(d) { return x(getDate(d)) })
+      .y(function(d) { return y(Number(d.cnt_riders)) });
+  var linesInGraph =  svg.selectAll("path")
+        .data(grouper)
+        .enter()
+        .append("path")
+        .attr("d", function(d){ return line(d.values) } )
+        .attr("stroke", function(d){ return myColor(d.key) })
+        .style("stroke-width", 2)
+        .style("class", "line")
+        .style("fill", "none");
+
   var circles = svg
     .selectAll("circle")
     .data(data)
@@ -426,18 +466,7 @@ var mouseover = function(d,i) {
     .on("mouseleave", mouseleave);
 
     
-  //TODO: get scatter plot working https://d3-graph-gallery.com/graph/connectedscatter_multi.html
-    var line = d3.line()
-      .x(function(d) { return x(+getDate(d)) })
-      .y(function(d) { return y(+Number(d.cnt_exits)) });
-    svg.attr("transform", "translate(50,50)")
-      .data(data)
-      .enter()
-      .append("path")
-        .attr("d", function(d){ return line(d) } )
-        .attr("stroke", function(d){ return myColor(d.station_cnty) })
-        .style("stroke-width", 4)
-        .style("fill", "none")
+      
 
 
     d3.select("svg").append("g").attr("transform", "translate(50,50)")
