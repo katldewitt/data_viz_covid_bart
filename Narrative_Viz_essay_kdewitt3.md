@@ -1,4 +1,4 @@
-# BART Ridership Narrative Visualization
+# Bay Area Public Transit Ridership during COVID 19 Narrative Visualization
 
 **NetId**: Kdewitt3
 
@@ -48,7 +48,7 @@ When designing my narrative, I decided to follow a Martini Glass structure to wa
 > What visual structure is used for each scene? How does it ensure the viewer can understand the data and navigate the scene? How does it highlight to urge the viewer to focus on the important parts of the data in each scene? How does it help the viewer transition to other scenes, to understand how the data 
 connects to the data in other scenes?
 
-I utilized the same axis structure throughout the visual narrative. While this may make some data more compressed (see Santa Clara, which has only 2 BART stations), it allows the viewer to stay oriented to the scale of the decrease in ridership. Additionally, I utilized gentle transitions of the points to ensure that the viewer did not get disoriented when switching data points between scenes.
+I utilized the same axis structure throughout the visual narrative. While this may make some data more compressed (see Santa Clara, which has only 2 BART stations), it allows the viewer to stay oriented to the scale of the decrease in ridership. Additionally, I utilized gentle transitions of the points to ensure that the viewer did not get disoriented when switching data points between scenes. I decided to leave the line for the general trend on between scenes to further provide the viewer an understanding how the data connect between scenes.
 
 ![Scene 0 Screenshot](scene1_screenshot.png)
 
@@ -112,6 +112,8 @@ In on top of the template, I used callouts in 3 specific locations to communicat
 
 As mentioned above, in scene 0, I have one annotation that appears after a 3 second delay. This change in annotation within a scene is meant to allow the user to first review the graph as a whole then have their attention drawn to the area I want them to focus on.
 
+I also have a description box that accompanies each scene to give the user additional details about the visual narrative. This description box is also an affordance for interactivity in scene 5.
+
 > [Click here to go back to the table of contents.](#table-of-contents)
 
 ## Parameters
@@ -127,7 +129,42 @@ Below the viewer has drilled down to only the `year` 2021 in scene 5.
 In another view, the viewer has selected only the `county` of Alameda and the `year` 2020.
 ![Scene 5 Screenshot](scene5b_screenshot.png)
 
+I have included pseduocode that shows how the `scene` parameter drives state in the underlying code of the visual narrative. As you can see, scene determines the values of year and county for scenes 0-4. In scene 5, the viewer can drill down as they please.
+
+```
+if (scene == 0) {
+  //display all year and all counties
+  //display annotations and description for scene 0
+}
+else if (scene == 1) {
+  year = 2019
+  county = "San Francisco"
+  //display annotations and description for scene 1
+}
+else if (scene == 2) {
+  year = 2020
+  county = "San Francisco"
+  //display annotations and description for scene 2
+}
+else if (scene == 3) {
+  year = 2021
+  county = "San Francisco"
+  //display annotations and description for scene 3
+}
+else if (scene == 4) {
+  year = 2022
+  county = "San Francisco"
+  //display annotations and description for scene 4
+}
+else if (scene == 5) {
+  year = d3.select(year).property("value");
+  county = d3.select(cnty).property("value");
+  //display responsive title based on user selection
+}
+```
+
 > [Click here to go back to the table of contents.](#table-of-contents)
+
 
 ## Triggers
 
@@ -137,9 +174,11 @@ In another view, the viewer has selected only the `county` of Alameda and the `y
 - need data pt/city name in tool tip
 - need ability to highlight county
 
-TODO: affordances/highlight dp
+The user actions that can change state are either scene selection or viewing the data in a tooltip. I will first discuss the tooltip and the affordances that alert the user to know they can interact.
 
-The most basic triggers I utilized to change state are dropdowns and buttons in scene 5, user directed exploration. I used `click`ing on a button to reset to all counties. In selecting `scene`, `county`, and `year`, I used a drop down that utilized an event listener that checked for `change`s.  
+After consideration, I added an annotation that reads "hover to see data details" to alert the user that a tooltip exists. While this is not the most elegant solution, it provides an affordance about the tool tip. The tooltip's underlying architecture is based on event listeners on the events `mouseover`, `mousemove`, and `mouseleave`. During a `mouseover` or `mousemove`, the opacity of the tooltip becomes 1 and displays information about the particular data point the viewer is hovering over. Please note that the hit boxes for the tooltip are very small, so positioning your mouse appropriately is key.
+
+The other basic triggers I utilized to change state are dropdowns and buttons in scene 5 to allow for user directed exploration. I used `click`ing on a button to reset to all counties. In selecting `scene`, `county`, and `year`, I used a drop down that utilized an event listener that checked `onchange`. The affordances implicit in the buttons and dropdowns is the fact that most viewer have years of understanding the purposes of each of these elements on a webpage.  
 
 > [Click here to go back to the table of contents.](#table-of-contents)
 
