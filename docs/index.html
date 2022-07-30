@@ -3,7 +3,7 @@
 <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
 <style> circle {fill: lightblue; stroke: black;} </style>
 <body onload='init()'>
-<svg width=650 height=300>
+  <svg width=650 height=350>
 </svg>
 <div></div>
 
@@ -251,6 +251,10 @@ function onYearChange(){
       var matchYear = new RegExp(selectedYear).test(d.year);
       return matchCnty && matchYear ? 1 : 0;
     }) 
+
+    selectedCnty = selectedCnty == ".*" ? "Bay Area" : selectedCnty;
+    selectedYear = selectedYear == ".*" ? "2019-2022" : selectedYear;
+    titleText.transition().duration(1000).text(`${selectedCnty} Ridership in ${selectedYear}`);
 }
 //************************* End: Filter by year
 
@@ -278,12 +282,19 @@ function onCntyChange(){
       .duration(1000).style("opacity", function(d) {
       var matchCnty = new RegExp(selectedCnty).test(d.key);
       return matchCnty ? .75 : 0;
-    }) ;
+    }) 
+    
+    selectedCnty = selectedCnty == ".*" ? "Bay Area" : selectedCnty;
+    selectedYear = selectedYear == ".*" ? "2019-2022" : selectedYear;
+    titleText.transition().duration(1000).text(`${selectedCnty} Ridership in ${selectedYear}`);
 }
 function showAllCnty(){
   circles.transition()
     .duration(1000)
     .style("opacity", 1);
+
+  titleText.transition().duration(1000).text("Explore Bay Area Ridership!")
+
 }
 //https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 //************************* End: Filter by county
@@ -309,14 +320,14 @@ function changeScene(){
   d3.select(this).style("display", "inline-block");
   d3.select('#input_scene').style("display", "inline-block");
 
-  //TODO: overview scene params
-
   //Anotations fade if not relevant
   ant0.transition().duration(1000).style("opacity", 0);
   ant1.transition().duration(1000).style("opacity", 0);
   ant2.transition().duration(1000).style("opacity", 0);
   ant3.transition().duration(1000).style("opacity", 0);
   ant4.transition().duration(1000).style("opacity", 0);
+
+
 
   //Make line graph appear
   linesInGraph.transition()
@@ -337,6 +348,9 @@ function changeScene(){
      
     //Add annotation to the chart
     ant1.transition().duration(1000).style("opacity", 1);
+
+    //Change the title
+    titleText.transition().duration(1000).text("Ridership in San Francisco in 2019")
     
   }
   else if (selectedScene == 2) {
@@ -353,6 +367,7 @@ function changeScene(){
     //Add annotation to the chart
     ant2.transition().duration(1000).style("opacity", 1);
       //https://towardsdatascience.com/how-to-improve-d3-js-graphs-with-annotations-252fbb9c5bb5
+      titleText.transition().duration(1000).text("Ridership in San Francisco in 2020")
 
   }
   else if (selectedScene == 3) {
@@ -366,6 +381,7 @@ function changeScene(){
       return matchCnty && matchYear ? 1 : 0;
     });
     ant3.transition().duration(1000).style("opacity", 1);
+    titleText.transition().duration(1000).text("Ridership in San Francisco in 2021")
  
   }
   else if (selectedScene == 4) {
@@ -381,6 +397,8 @@ function changeScene(){
     
     //Add annotation to the chart
     ant4.transition().duration(1000).style("opacity", 1);
+    titleText.transition().duration(1000).text("Ridership in San Francisco in 2022")
+
   }
   else if (selectedScene == 5 ) {
     circles.transition()
@@ -390,7 +408,8 @@ function changeScene(){
       d3.selectAll('select').style("display","inline-block");
       d3.selectAll('button').style("display","inline-block");
 
-      
+      titleText.transition().duration(1000).text("Explore Bay Area Ridership!")
+
     linesInGraph.transition()
       .duration(1000).style("opacity", 1) ;
   }
@@ -403,12 +422,18 @@ function changeScene(){
 
     linesInGraph.transition()
       .duration(1000).style("opacity", 1) ;
+    
+    titleText.transition().duration(1000).text("Bay Area Public Transit Ridership")
+
   }
 }
 //************************* End: Filter by scene
 
 
+//TODO: Title
 
+
+  
 //TODO: affordances
 
 var mouseover = function(d,i) {
@@ -432,8 +457,12 @@ var mouseover = function(d,i) {
 
   var svg =  d3.select("svg").append("g").attr("transform", "translate(50,50)");
 
+  //Title
+  var titleText = svg.append('text').attr('class','title')
+    .attr('x', 300)
+    .attr('y', -20)
+    .attr('text-anchor', 'middle').text('Bay Area Public Transit Ridership')
 
-  //TODO: get scatter plot working https://d3-graph-gallery.com/graph/connectedscatter_multi.html
   //Ned too group the data
   var grouper = d3.nest()
     .key(function(d) {return d.station_cnty})
