@@ -316,12 +316,23 @@ function showAllCnty(){
   linesInGraph.transition()
       .duration(1000).style("opacity", 1); 
 }
-//https://stackoverflow.com/questions/39964570/how-to-filter-data-with-d3-js
 //************************* End: Filter by county
 
 //************************* Begin: Filter by scene
 var scene_html = document.getElementById('select_scene');
 scene_html.addEventListener("change", changeScene);
+
+function sceneHelper(antn, titleString, descriptionString){
+   //Add annotation to the chart
+   if(antn != null){
+    antn.transition().duration(1000).style("opacity", 1);
+   }
+
+  //Change the title
+  titleText.transition().duration(1000).text(titleString);
+  //Change the description
+  description.innerHTML =descriptionString;
+}
 
 function changeScene(){
   var selectedScene = d3.select(this).property("value");
@@ -344,7 +355,7 @@ function changeScene(){
 
   //fade the description
   
-  description.innerHTML ="";
+  description.innerHTML = "";
 
 
   //Make line graph appear
@@ -363,16 +374,11 @@ function changeScene(){
       var matchYear = new RegExp("2019").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
     }) ;
-     
-    //Add annotation to the chart
-    ant1.transition().duration(1000).style("opacity", 1);
-
-    //Change the title
-    titleText.transition().duration(1000).text("Ridership in San Francisco in 2019")
     
-    //Change the description
-    description.innerHTML ="<b>Ridership in San Francisco Prior to the pandemic</b><br> To explore the impact of the pandemic on public transit ridership, we will focus on ridership in San Francisco in particular. Let's first review the ridership data in 2019 to establish a typical year of public transit ridership.";
-  }
+    sceneHelper(ant1, 
+            "Ridership in San Francisco in 2019", 
+            "<b>Ridership in San Francisco Prior to the pandemic</b><br> To explore the impact of the pandemic on public transit ridership, we will focus on ridership in San Francisco in particular. Let's first review the ridership data in 2019 to establish a typical year of public transit ridership.");
+     }
   else if (selectedScene == 2) {
     //This makes only the relevant county data appear
     circles.transition()
@@ -383,14 +389,9 @@ function changeScene(){
       var matchYear = new RegExp("2020").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
     });
-    
-    //Add annotation to the chart
-    ant2.transition().duration(1000).style("opacity", 1);
-      //https://towardsdatascience.com/how-to-improve-d3-js-graphs-with-annotations-252fbb9c5bb5
-   titleText.transition().duration(1000).text("Ridership in San Francisco in 2020");
-    //Change the description
-    description.innerHTML ="<b>The Pandemic Hits San Francisco</b><br>Everything changed in March 2020, when the 5 Bay Area counties issued a shelter in place order to contain the spread of COVID19. Ridership dropped dramatically following March 2020 as the pandemic raged across the county. Incredibly, we also got vaccines within a year of the shelter in place order.";
-
+    sceneHelper(ant2, 
+            "Ridership in San Francisco in 2020", 
+            "<b>The Pandemic Hits San Francisco</b><br>Everything changed in March 2020, when the 5 Bay Area counties issued a shelter in place order to contain the spread of COVID19. Ridership dropped dramatically following March 2020 as the pandemic raged across the county. Incredibly, we also got vaccines within a year of the shelter in place order.");
   }
   else if (selectedScene == 3) {
     //This makes only the relevant county data appear
@@ -402,10 +403,9 @@ function changeScene(){
       var matchYear = new RegExp("2021").test(d.year);
       return matchCnty && matchYear ? 1 : 0;
     });
-    ant3.transition().duration(1000).style("opacity", 1);
-    titleText.transition().duration(1000).text("Ridership in San Francisco in 2021")
-    description.innerHTML ="<b>Vaccines Arrive for San Francisco Riders</b><br>In early 2021, vaccines were distributed to health care providers and essential workers. Starting in April, all San Francisco residents were eligible to be vaccinated. Vaccines for youth became available later in the year. It is interesting to note that the timing of the availability of vaccines did not correlate with a large uptick in ridership. Instead, a gradual increase in ridership occurred throughout 2021.";
-
+    sceneHelper(ant3, 
+            "Ridership in San Francisco in 2021", 
+            "<b>Vaccines Arrive for San Francisco Riders</b><br>In early 2021, vaccines were distributed to health care providers and essential workers. Starting in April, all San Francisco residents were eligible to be vaccinated. Vaccines for youth became available later in the year. It is interesting to note that the timing of the availability of vaccines did not correlate with a large uptick in ridership. Instead, a gradual increase in ridership occurred throughout 2021.");
   }
   else if (selectedScene == 4) {
     //This makes only the relevant county data appear
@@ -418,10 +418,9 @@ function changeScene(){
       return matchCnty && matchYear ? 1 : 0;
     }) 
     
-    //Add annotation to the chart
-    ant4.transition().duration(1000).style("opacity", 1);
-    titleText.transition().duration(1000).text("Ridership in San Francisco in 2022")
-    description.innerHTML ="<b>San Franciscans Head Back to the Office?</b><br>In spring of 2022 the Omicron variant caused many companies to delay their return to office plans. Even with the return to office plans being formalized in late spring, public transit ridership has changed significantly due to the Pandemic. This may be due to remote workers who previously commuted to work in SF as well as other factors like an increased reliance on cars.";
+    sceneHelper(ant4, 
+            "Ridership in San Francisco in 2022", 
+            "<b>San Franciscans Head Back to the Office?</b><br>In spring of 2022 the Omicron variant caused many companies to delay their return to office plans. Even with the return to office plans being formalized in late spring, public transit ridership has changed significantly due to the Pandemic. This may be due to remote workers who previously commuted to work in SF as well as other factors like an increased reliance on cars.");
 
   }
   else if (selectedScene == 5 ) {
@@ -432,13 +431,15 @@ function changeScene(){
       d3.selectAll('select').style("display","inline-block");
       d3.selectAll('button').style("display","inline-block");
 
-      titleText.transition().duration(1000).text("Explore Bay Area Ridership!")
-
-    linesInGraph.transition()
+      linesInGraph.transition()
       .duration(1000).style("opacity", 1) ;
-    
-    description.innerHTML ="<b>Explore Public Transit Ridership by County and State</b><br>At this point, I invite you to explore the data via county and state using the drop downs above.";
 
+
+    sceneHelper(null, 
+            "Explore Bay Area Ridership!", 
+            "<b>Explore Public Transit Ridership by County and State</b><br>At this point, I invite you to explore the data via county and state using the drop downs above.");
+
+    
   }
   else if (selectedScene == 0) {
     circles.transition()
