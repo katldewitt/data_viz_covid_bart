@@ -175,7 +175,7 @@ The goal of this section is to check all the boxes to make your life (i.e. the g
 
 > [1 point] Does the URL connect to a functioning web page?
 
-Yes. TODO: add link.
+Yes. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
 
 ### **B. Upload a PDF file essay describing your narrative visualization as required by the assignment instructions.**
 
@@ -191,17 +191,25 @@ Martini glass structure discussed in [my section on narrative structure above](#
 
 > [3 points] Does the narrative visualization follow that structure?
 
-Yes. TODO: add link.
+Yes. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
 
 ### **D. Visual Structure**
 
 > [2 points] Does the essay indicate what visual structure is used for each scene?
 
+Yes, discussed in [my section on visual structure above](#visual-structure).
+
 > [1 point] Does the essay indicate how the visual structure ensures the viewer can understand the data?
+
+Yes, using a consistent axes is discussed in [my section on visual structure above](#visual-structure).
 
 > [1 point] Does the essay indicate how highlighting is used to get the viewer to focus on the important parts of the data in each scene?
 
+Yes, using annotations for highlighting is discussed in [my section on visual structure above](#visual-structure).
+
 > [1 point] Does the essay indicate how the visual structure helps the viewer transition to other scenes, to understand how the data connects to the data in other scenes?
+
+Yes, the user of the line and transition effects are discussed in [my section on visual structure above](#visual-structure).
 
 ### **E. Scenes and Visual Ordering**
 
@@ -215,7 +223,7 @@ Scene ordering in [my section on scenes above](#scenes).
 
 > [2 point] Do the charts used as scenes effectively present the data?
 
-Yes. TODO: add link.
+Yes. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
 
 ### **F. Annotations**
 
@@ -229,7 +237,8 @@ Yes, I include a template code and discuss in [my section on annotations above](
 
 > [2 points] Are the annotations in the narrative visualization effective and consistent?
 
-Yes. Any deviations from the template are intentional to draw the viewer's eye. TODO: add link.
+Yes. Any deviations from the template are intentional to draw the viewer's eye.
+[https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
 
 ### **G. Parameters and States**
 
@@ -247,25 +256,26 @@ State machine based on parameters discussed in [my section on parameters above](
 
 > [1 point] Does the narrative visualization use parameters to control its state?
 
-Yes. TODO: add link.
+Yes. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
 
 > [1 point] Does the narrative visualization use parameters to control each scene?
 
-Yes. TODO: add link.
+Yes. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
 
 ### **H. Triggers**
 
 > [2 points] Does the essay indicate the triggers that connect user actions to changes of state in the narrative visualization?
 
+See my discussion on triggers in [the section on triggers above](#triggers).
+
 > [1 point] Does the essay indicate what affordances are provided to the user to communicate to them what options are available to them in the narrative visualization?
+
+See my discussion on affordances in [the section on triggers above](#triggers).
 
 > [1 point] Does the narrative visualization implement and respond to user events properly?
 
+Yes, but the hit boxes are small for the tooltip. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
+
 > [1 point] Does the narrative visualization make any effort at all to communicate what options are available to the user?
 
-### TODO LIST
-
-Nice to haves:
-
-1. Tooltip
-2. legend
+Yes; annotation as affordance and buttons/drop downs. [https://katldewitt.github.io/data_viz_covid_bart/](https://katldewitt.github.io/data_viz_covid_bart/)
