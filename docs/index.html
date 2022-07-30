@@ -1,0 +1,588 @@
+<html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+<style>
+  circle {
+    fill: lightblue;
+    stroke: black;
+  }
+</style>
+
+<body onload='init()'>
+  <svg width=650 height=350>
+  </svg>
+  <div></div>
+
+  <label for="input scene" id="input_scene">Scene</label>
+  <select id="select_scene" name="select_scene">
+    <option value="0">0. Overview</option>
+    <option value="1">1. Prior to COVID</option>
+    <option value="2">2. The Pandemic</option>
+    <option value="3">3. Vaccines and Year 2</option>
+    <option value="4">4. Beginning of 2022</option>
+    <option value="5">5. Explore the Data</option>
+  </select>
+
+  <label for="input year" style="display:none">Year</label>
+  <select id="select_year" name="select_year" style="display:none">
+    <option value=".*"></option>
+    <option value="2019">2019</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+  </select>
+
+  <label for="input county" style="display:none">County</label>
+  <select id="select_cnty" name="select_cnty" style="display:none">
+    <option value=".*"></option>
+    <option value="Alameda">Alameda</option>
+    <option value="Contra Costa">Contra Costa</option>
+    <option value="San Francisco">San Francisco</option>
+    <option value="San Mateo">San Mateo</option>
+    <option value="Santa Clara">Santa Clara</option>
+  </select>
+  <button id="All Counties" style="display:none">
+    All Counties
+  </button>
+
+  <div id="descriptions"><b>Overview of Bay Area Public Transit Ridership in a time of COVID</b><br>Welcome! For my
+    narrative visualization, I created a story about public transit ridership in the California Bay Area as influenced
+    by the pandemic using D3 in Javascript.<br> We will be investigating Bay Area Rapid Transit (BART) ridership's
+    significant decrease due to the COVID19 pandemic. In the above graph, you will see a line for each of the 5 Bay Area
+    counties that charts ridership in millions between 2019 and March 2022.</div>
+
+  <script>
+    async function init() {
+      //Load the data
+      const data = await d3.csv(
+        'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/feat/vis-narrative/User_Created_Data/103_monthly_ridership_data.csv');
+
+      var y = d3.scaleLinear()
+        .domain([0, 9550000]) 
+        .range([200, 0]);
+
+      //Source: Working with dates in D3 js https://stackoverflow.com/questions/8301531/dealing-with-dates-on-d3-js-axis
+      function getDate(d) {
+        return new Date(d.date);
+      }
+      var x = d3.scaleTime()
+        .domain([new Date("1/1/2019"), new Date("4/1/2022")])
+        .range([0, 600]);
+
+      var x_axis = d3.axisBottom()
+        .scale(x).ticks(d3.timeMonth, 1).tickFormat(d3.timeFormat('%b-%Y'));
+      var y_axis = d3.axisLeft()
+        .scale(y).tickFormat(d3.format("~s"));
+
+      var description = document.getElementById("descriptions");
+
+
+      //----------------Start annotations
+      //Source: for annotation dates https://en.wikipedia.org/wiki/COVID-19_vaccination_in_the_United_States
+
+      const scene0Annotation = [
+        //First annotation
+        {
+          note: {
+            label: "Ridership Plummets due to COVID19 Pandemic",
+            title: "March 2020",
+            wrap: 150
+          },
+          color: ["red"],
+          x: x(new Date("2/1/2020")),
+          y: 0,
+          dy: 50,
+          dx: 70,
+          subject: {
+            width: 30,
+            height: 200
+          },
+          type: d3.annotationCalloutRect,
+        },
+        //Second annotation
+        {
+          note: {
+            label: "to see details",
+            title: "Hover Over Points",
+            wrap: 150
+          },
+          color: ["blue"],
+          x: x(new Date("4/1/2021")),
+          y: y(1200000),
+          dy: -33,
+          dx: 20,
+          subject: {
+            width: 30,
+            height: 200
+          },
+        }
+      ];
+      const scene1Annotation = [
+        //First annotation
+        { //feb only has 28 dates, 19 working days
+          note: {
+            label: "Slight dip in ridership",
+            title: "Feb 2019"
+          },
+          color: ["blue"],
+          x: x(new Date("2/1/2019")),
+          y: y(8000000),
+          dy: 25,
+          dx: 10
+        },
+        //Second annotation
+        { //holiday season results in lower ridership
+          note: {
+            label: "Decreased Ridership due to Holidays",
+            title: "Nov/Dec 2019",
+            wrap: 100
+          },
+          color: ["blue"],
+          x: x(new Date("11/15/2019")),
+          y: y(8000000),
+          dy: 50,
+          dx: 70,
+          subject: {
+            raidus: 50,
+            radiusPadding: 5
+          },
+          type: d3.annotationCalloutCircle,
+        }
+      ];
+
+      const scene2Annotation = [
+        //First annotation
+        {
+          note: {
+            label: "Bay Area Counties Begin Lockdown",
+            title: "March 2020"
+          },
+          color: ["red"],
+          x: x(new Date("3/1/2020")),
+          y: y(3500000),
+          dy: -10,
+          dx: -10
+        },
+        //Second annotation
+        {
+          note: {
+            label: "FDA Grants Emergency Authorization for 2 vaccines", //Pfizer–BioNTech and Moderna 
+            title: "Dec 2020",
+            wrap: 100
+          },
+          color: ["blue"],
+          x: x(new Date("12/1/2020")),
+          y: y(1000000),
+          dy: -25,
+          dx: 10
+        }
+      ];
+
+
+      const scene3Annotation = [
+        //first annotation
+        {
+          note: {
+            label: "All People 16+ Vaccine Eligible",
+            title: "April 2021",
+            wrap: 100
+          },
+          color: ["blue"],
+          x: x(new Date("4/1/2021")),
+          y: y(1200000),
+          dy: -20,
+          dx: -40
+        },
+        //second annotation
+        {
+          note: {
+            label: "Adolescents 12-15 Vaccine Eligible",
+            title: "May 2021",
+            wrap: 100
+          },
+          color: ["blue"],
+          x: x(new Date("5/1/2021")),
+          y: y(1400000),
+          dy: -50,
+          dx: 10
+        },
+        //third annotation
+        {
+          note: {
+            label: "Kids 5-11 Vaccine Eligible",
+            title: "Oct 2021",
+            wrap: 100
+          },
+          color: ["blue"],
+          x: x(new Date("10/1/2021")),
+          y: y(2300000),
+          dy: -30,
+          dx: 30
+        }
+      ];
+
+      const scene4Annotation = [
+        //First annotation
+        {
+          note: {
+            label: "Return to Office?",
+            title: "2022",
+            wrap: 100
+          },
+          color: ["blue"],
+          x: x(new Date("2/1/2022")),
+          y: y(2300000),
+          dy: -50,
+          dx: -50,
+          subject: {
+            radius: 35,
+            radiusPadding: 5
+          },
+          type: d3.annotationCalloutCircle,
+        }
+      ];
+
+      //Helps to make an annotation w/ no opacity as a starter
+      makeAnnotationHelper = function (annotation) {
+        const makeAnnotations = d3.annotation()
+          .annotations(annotation)
+        return d3.select("svg")
+          .append("g")
+          .call(makeAnnotations)
+          .style("opacity", 0)
+          .attr("transform", "translate(50,50)");
+      }
+
+      var ant0 = makeAnnotationHelper(scene0Annotation);
+      var ant1 = makeAnnotationHelper(scene1Annotation);
+      var ant2 = makeAnnotationHelper(scene2Annotation);
+      var ant3 = makeAnnotationHelper(scene3Annotation);
+      var ant4 = makeAnnotationHelper(scene4Annotation);
+
+      //Exception: Antotation of scene 0 starts as 1
+      ant0.transition().duration(3000).style("opacity", 1);
+      //------------------------------end annotation
+
+
+      //************************* Begin: Filter by year
+      var year_html = document.getElementById('select_year');
+      year_html.addEventListener("change", onYearChange);
+
+      function onYearChange() {
+        var selectedYear = d3.select(this).property("value");
+        var selectedCnty = d3.select(cnty).property("value");
+        //This makes only the relevant county data appear
+        circles.transition()
+          .duration(1000)
+          .style("opacity", function (d) {
+            //I used regex to filter the data. The blank values match ALL counties/years.
+            var matchCnty = new RegExp(selectedCnty).test(d.station_cnty);
+            var matchYear = new RegExp(selectedYear).test(d.year);
+            return matchCnty && matchYear ? 1 : 0;
+          })
+
+        selectedCnty = selectedCnty == ".*" ? "Bay Area" : selectedCnty;
+        selectedYear = selectedYear == ".*" ? "2019-2022" : selectedYear;
+        titleText.transition().duration(1000).text(`${selectedCnty} Ridership in ${selectedYear}`);
+      }
+      //************************* End: Filter by year
+
+      //************************* Begin: Filter by county
+      var cnty = document.getElementById('select_cnty');
+      cnty.addEventListener("change", onCntyChange);
+
+      var allCntyButton = document.getElementById('All Counties');
+      allCntyButton.addEventListener("click", showAllCnty)
+
+      function onCntyChange() {
+        var selectedCnty = d3.select(this).property("value");
+        var selectedYear = d3.select(year_html).property("value");
+        //This makes only the relevant county data appear
+        circles.transition()
+          .duration(1000)
+          .style("opacity", function (d) {
+            var matchCnty = new RegExp(selectedCnty).test(d.station_cnty);
+            var matchYear = new RegExp(selectedYear).test(d.year);
+            return matchCnty && matchYear ? 1 : 0;
+          });
+
+
+        linesInGraph.transition()
+          .duration(1000).style("opacity", function (d) {
+            var matchCnty = new RegExp(selectedCnty).test(d.key);
+            return matchCnty ? .75 : 0;
+          })
+
+        selectedCnty = selectedCnty == ".*" ? "Bay Area" : selectedCnty;
+        selectedYear = selectedYear == ".*" ? "2019-2022" : selectedYear;
+        titleText.transition().duration(1000).text(`${selectedCnty} Ridership in ${selectedYear}`);
+      }
+      function showAllCnty() {
+        circles.transition()
+          .duration(1000)
+          .style("opacity", 1);
+
+        titleText.transition().duration(1000).text("Explore Bay Area Ridership!")
+        linesInGraph.transition()
+          .duration(1000).style("opacity", 1);
+      }
+      //************************* End: Filter by county
+
+      //************************* Begin: Filter by scene
+      var scene_html = document.getElementById('select_scene');
+      scene_html.addEventListener("change", changeScene);
+
+      function sceneHelper(antn, titleString, descriptionString) {
+        //Add annotation to the chart
+        if (antn != null) {
+          antn.transition().duration(1000).style("opacity", 1);
+        }
+
+        //Change the title
+        titleText.transition().duration(1000).text(titleString);
+        //Change the description
+        description.innerHTML = descriptionString;
+      }
+
+      function changeScene() {
+        var selectedScene = d3.select(this).property("value");
+
+        //Turn off self exploration if not row 5
+        d3.selectAll('label').style("display", "none");
+        d3.selectAll('select').style("display", "none");
+        d3.selectAll('button').style("display", "none");
+
+        //Don't turn off scene selector
+        d3.select(this).style("display", "inline-block");
+        d3.select('#input_scene').style("display", "inline-block");
+
+        //Annotations fade if not relevant
+        ant0.transition().duration(1000).style("opacity", 0);
+        ant1.transition().duration(1000).style("opacity", 0);
+        ant2.transition().duration(1000).style("opacity", 0);
+        ant3.transition().duration(1000).style("opacity", 0);
+        ant4.transition().duration(1000).style("opacity", 0);
+
+        //fade the description
+        description.innerHTML = "";
+
+
+        //Make line graph appear
+        linesInGraph.transition()
+          .duration(1000).style("opacity", function (d) {
+            var matchCnty = new RegExp("San Francisco").test(d.key);
+            return matchCnty ? .75 : 0;
+          });
+
+        if (selectedScene == 1) {
+          //This makes only the relevant county data appear
+          circles.transition()
+            .duration(1000)
+            .style("opacity", function (d) {
+              var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+              var matchYear = new RegExp("2019").test(d.year);
+              return matchCnty && matchYear ? 1 : 0;
+            });
+
+          sceneHelper(ant1,
+            "Ridership in San Francisco in 2019",
+            "<b>Ridership in San Francisco Prior to the pandemic</b><br> To explore the impact of the pandemic on public transit ridership, we will focus on ridership in San Francisco in particular. Let's first review the ridership data in 2019 to establish a typical year of public transit ridership.");
+        }
+        else if (selectedScene == 2) {
+          //This makes only the relevant county data appear
+          circles.transition()
+            .duration(1000)
+            .style("opacity", function (d) {
+              //I used regex to filter the data. The blank values match ALL counties/years.
+              var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+              var matchYear = new RegExp("2020").test(d.year);
+              return matchCnty && matchYear ? 1 : 0;
+            });
+          sceneHelper(ant2,
+            "Ridership in San Francisco in 2020",
+            "<b>The Pandemic Hits San Francisco</b><br>Everything changed in March 2020, when the 5 Bay Area counties issued a shelter in place order to contain the spread of COVID19. Ridership dropped dramatically following March 2020 as the pandemic raged across the county. Incredibly, we also got vaccines within a year of the shelter in place order.");
+        }
+        else if (selectedScene == 3) {
+          //This makes only the relevant county data appear
+          circles.transition()
+            .duration(1000)
+            .style("opacity", function (d) {
+              //I used regex to filter the data. The blank values match ALL counties/years.
+              var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+              var matchYear = new RegExp("2021").test(d.year);
+              return matchCnty && matchYear ? 1 : 0;
+            });
+          sceneHelper(ant3,
+            "Ridership in San Francisco in 2021",
+            "<b>Vaccines Arrive for San Francisco Riders</b><br>In early 2021, vaccines were distributed to health care providers and essential workers. Starting in April, all San Francisco residents were eligible to be vaccinated. Vaccines for youth became available later in the year. It is interesting to note that the timing of the availability of vaccines did not correlate with a large uptick in ridership. Instead, a gradual increase in ridership occurred throughout 2021.");
+        }
+        else if (selectedScene == 4) {
+          //This makes only the relevant county data appear
+          circles.transition()
+            .duration(1000)
+            .style("opacity", function (d) {
+              //I used regex to filter the data. The blank values match ALL counties/years.
+              var matchCnty = new RegExp("San Francisco").test(d.station_cnty);
+              var matchYear = new RegExp("2022").test(d.year);
+              return matchCnty && matchYear ? 1 : 0;
+            })
+
+          sceneHelper(ant4,
+            "Ridership in San Francisco in 2022",
+            "<b>San Franciscans Head Back to the Office?</b><br>In spring of 2022 the Omicron variant caused many companies to delay their return to office plans. Even with the return to office plans being formalized in late spring, public transit ridership has changed significantly due to the Pandemic. This may be due to remote workers who previously commuted to work in SF as well as other factors like an increased reliance on cars.");
+
+        }
+        else if (selectedScene == 5) {
+          circles.transition()
+            .duration(1000)
+            .style("opacity", 1);
+          d3.selectAll('label').style("display", "inline-block");
+          d3.selectAll('select').style("display", "inline-block");
+          d3.selectAll('button').style("display", "inline-block");
+
+          linesInGraph.transition()
+            .duration(1000).style("opacity", 1);
+
+
+          sceneHelper(null,
+            "Explore Bay Area Ridership!",
+            "<b>Explore Public Transit Ridership by County and State</b><br>At this point, I invite you to explore the data via county and state using the drop downs above.");
+
+
+        }
+        else if (selectedScene == 0) {
+          circles.transition()
+            .duration(1000)
+            .style("opacity", 1);
+          //Add annotation to the chart
+          ant0.transition().duration(1000).style("opacity", 1);
+
+          linesInGraph.transition()
+            .duration(1000).style("opacity", 1);
+
+          titleText.transition().duration(1000).text("How did Bay Area Public Transit Ridership Change due to the Pandemic?")
+
+        }
+      }
+      //************************* End: Filter by scene
+
+      //~~~~~~~~~~~~~~~~~~~~~~~Begin tooltip
+      var tooltip = d3.select("body").append("div")
+        .attr("id", "tooltip")
+        .style("opacity", 0)
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute");
+
+      var mouseover = function (d, i) {
+        //highlights the data point
+        if (d3.select(this).style("opacity") != 0) {
+
+          d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1)
+        }
+        d3.select("#tooltip")
+          .style("opacity", 1)
+          .html("On " + humanReadableDate + ", " + d.station_cnty + "<br> had " + d.cnt_riders + " total riders")
+          ;
+      }
+
+      var mousemove = function (d, i) {
+        if (d3.select(this).style("opacity") != 0) {
+          var humanReadableDate = (getDate(d).getMonth() + 1) + '/' + getDate(d).getFullYear();
+
+          tooltip
+            .html("On " + humanReadableDate + ",<br>" + d.station_cnty + " had " + d.cnt_riders + " total riders")
+            .style("left", d3.event.pageX + 'px')
+            .style("top", d3.event.pageY + 'px');
+        }
+      }
+      var mouseleave = function (d, i) {
+        if (d3.select(this).style("opacity") != 0) {
+
+          d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 1)
+        }
+
+        d3.select("#tooltip").style("opacity", 0).text("TEST")
+      }
+
+      //~~~~~~~~~~~~~~~~~~~~~~~End tooltip
+
+      //Group lines by color
+      var allGroup = ["Alameda", "Contra Costa", "San Francisco", "San Mateo", "Santa Clara"]
+      var myColor = d3.scaleOrdinal()
+        .domain(allGroup)
+        .range(d3.schemeSet2);
+
+      var svg = d3.select("svg").append("g").attr("transform", "translate(50,50)");
+
+      //Title
+      var titleText = svg.append('text').attr('class', 'title')
+        .attr('x', 300)
+        .attr('y', -20)
+        .style("font-size", "20px")
+        .attr('text-anchor', 'middle').text('How did Bay Area Public Transit Ridership Change due to the Pandemic?')
+
+      //Need too group the data for line graph
+      var grouper = d3.nest()
+        .key(function (d) { return d.station_cnty })
+        .entries(data);
+      var line = d3.line()
+        .x(function (d) { return x(getDate(d)) })
+        .y(function (d) { return y(Number(d.cnt_riders)) });
+      var linesInGraph = svg.selectAll("path")
+        .data(grouper)
+        .enter()
+        .append("path")
+        .attr("d", function (d) { return line(d.values) })
+        .attr("stroke", function (d) { return myColor(d.key) })
+        .style("stroke-width", 2)
+        .style("class", "line")
+        .style("fill", "none");
+
+      var circles = svg
+        .selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d, i) { return x(getDate(d)); })
+        .attr("cy", function (d, i) { return y(Number(d.cnt_riders)); })
+        .attr("r", 4.5)
+        .style("fill", function (d) { return myColor(d.station_cnty) })
+        .style("stroke", function (d) { return myColor(d.station_cnty) })
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave);
+
+      d3.select("svg").append("g").attr("transform", "translate(50,50)")
+        .call(y_axis);
+
+      svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "end")
+        .attr("y", 6)
+        .attr("x", -50)
+        .attr("dy", -45)
+        .attr("transform", "rotate(-90)")
+        .text("Total Ridership")
+        .style("font-size", "14px");
+
+      d3.select("svg").append("g").attr("transform", "translate(50,250)")
+        .call(x_axis)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.9em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-90)");
+
+    }
+  </script>
+</body>
+
+</html>
