@@ -25,6 +25,8 @@ For my narrative visualization, I created a story about public transit ridership
 
 Please note that the [grading reference section](#grading-reference) is a tool that will assist you with grading my responses. For ease, I will link back to the appropriate section of my essay; highlight chunks of code; or include screenshots of the visualization.
 
+The data are sourced from [Bay Area Rapid Transit](https://www.bart.gov/about/reports/ridership), under the Hourly Data for years 2019 through 2022. I processed the data in python using `100_bart_cleanup.py` and `103_ridership_rollup.py`, both of which are available on [github here](https://github.com/katldewitt/data_viz_covid_bart).
+
 > [Click here to go back to the table of contents.](#table-of-contents)
 
 ## Messaging
