@@ -1,8 +1,12 @@
 # CS416 Dashboard: COVID's Impact on BART Ridership
 
-## **[Dashboard url](https://public.tableau.com/views/COVIDsImpactonBARTRidership/FinalDashboard?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link)**
+## **[Tableau Dashboard url](https://public.tableau.com/views/COVIDsImpactonBARTRidership/FinalDashboard?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link)**
 
-## Responses to Questions on Coursera
+## **[Narrative Visualization (JavaScript)](https://katldewitt.github.io/data_viz_covid_bart/)**
+
+### Narrative Visualization last refreshed on 12/4/22 with data through 10/31/22
+
+## Responses to Questions on Narrative Visualization
 *Title*:  COVID's Impact on BART Ridership
 
 *Caption*: The Bay Area Rapid Transit (BART) system connects five Bay Area counties. Prior to the COVID19 Pandemic, ridership consisted of over 400,000 trips on an average weekday ([source Bart.gov](https://www.bart.gov/sites/default/files/docs/2019%20BARTFacts2019%20FINAL.pdf)). Starting in March 2020, BART ridership decreased dramatically due to the social distancing mandates. The goal of this dashboard is to put county-level COVID data in communication with station-level ridership data to allow the end user to explore the story of how COVID and public transit in the Bay Area.
@@ -35,7 +39,7 @@ The second chart is my map in the upper left hand corner that demonstrates the g
 
 *How does your dashboard support cross-filtering between these two charts?*
 
-I support cross-filting of station county, station name, and year. If someone selects a particular county, the stations in that county are the only ones listed in the map and both graphs limit to the ridership and case count of that county. An additional detail is that my second filter, station name, will subset to only relevant options (i.e. only stations within that county). I added a filter for year as well to allow users to turn off the 2019 ridership data once they undrestand the previous way the BART system used to operate.
+I support cross-filting of station county, station name, and year. If someone selects a particular county, the stations in that county are the only ones listed in the map and both graphs limit to the ridership and case count of that county. An additional detail is that my second filter, station name, will subset to only relevant options (i.e. only stations within that county). I added a filter for year as well to allow users to turn off the 2019 ridership data once they understand the previous way the BART system used to operate.
 
 *Challenges of designing this chart*:
 
