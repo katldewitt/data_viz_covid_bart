@@ -1,6 +1,7 @@
 # 100_bart_cleanup
 # Purpose: Clean Ridership Data
 # Author: Kathryn DeWitt (kdewitt3)
+# How to run: unzip the hourly ridership data locally before running this
 # Specifications:
 '''
 1. Read in the hourly ridership data files
