@@ -52,11 +52,11 @@ connects to the data in other scenes?
 
 I utilized the same axis structure throughout the visual narrative. While this may make some data more compressed (see Santa Clara, which has only 2 BART stations), it allows the viewer to stay oriented to the scale of the decrease in ridership. Additionally, I utilized gentle transitions of the points to ensure that the viewer did not get disoriented when switching data points between scenes. I decided to leave the line for the general trend on between scenes to further provide the viewer an understanding how the data connect between scenes.
 
-![Scene 0 Screenshot](scene1_screenshot.png)
+![Scene 0 Screenshot](screenshots/scene1_screenshot.png)
 
 For example, switching between the overview scene (above) to the scene showing the pandemic (below), I use the same axes, same colors, and keep a faint outline of the line graph for San Francisco. In the below screenshot, I draw the viewer's attention to the data points in focus through annotations, removing other counties, and changing the title.
 
-![Scene 2 Screenshot](scene2_screenshot.png)
+![Scene 2 Screenshot](screenshots/scene2_screenshot.png)
 
 > [Click here to go back to the table of contents.](#table-of-contents)
 
@@ -68,23 +68,23 @@ As part of the Martini Glass structure, I have 5 author directed scenes followed
 
 In scene 0, I provide the user an overview of the data and then draw their attention to the March 2020 decline in public transit ridership. By setting the scene across all Bay Area counties, I invite the viewer to notice trends at a high level.
 
-![Scene 0 Screenshot](scene1_screenshot.png)
+![Scene 0 Screenshot](screenshots/scene1_screenshot.png)
 
 In scene 1 below, the viewer begins reviewing the ridership data by year for the county of San Francisco alone. Scenes 1-4 will go year by year marking the key COVID-19 milestones on top of ridership data. The chronological ordering of the scenes makes logical sense to the viewer and helps them to walk through the journey. The goal of having scene 1 is to give the viewer a sense of what baseline ridership was prior to 2020.  I chose to leave the trend line in the background of scenes 1-4 to help the viewer see both the big picture trend in ridership while allowing them to focus on the points being emphasized in the current year.
 
-![Scene 1 Screenshot](scene11_screenshot.png)
+![Scene 1 Screenshot](screenshots/scene11_screenshot.png)
 
 In scene 2 (picture below), the viewer sees the COVID19 annotation on top of ridership data for San Francisco in 2020, which is in red to highlight and emphasize the importance of that data point.
 
-![Scene 2 Screenshot](scene2_screenshot.png)
+![Scene 2 Screenshot](screenshots/scene2_screenshot.png)
 
 In scene 3, the viewer reviews the pace of vaccination eligibility along with ridership data for San Francisco in 2021. The point here is that vaccine availability did not result in an immediate rebound of ridership.
 
-![Scene 3 Screenshot](scene3_screenshot.png)
+![Scene 3 Screenshot](screenshots/scene3_screenshot.png)
 
 In scene 4, I display ridership data for San Francisco in 2022 and theorize about the impact of return to work. The point of this scene, which ends in March 2022, is to show ridership has not rebounded to pre-COVID levels.
 
-![Scene 4 Screenshot](scene4_screenshot.png)
+![Scene 4 Screenshot](screenshots/scene4_screenshot.png)
 
 Finally, the viewer is allowed to freely explore the data via drilling down to different counties and different years. I will talk more about how the user can explore the data in [my section on parameters below.](#parameters)
 
@@ -126,10 +126,10 @@ I used the parameters `scene`, `county`, and `year` to control the narrative vis
 
 Below the viewer has drilled down to only the `year` 2021 in scene 5.
 
-![Scene 5 Screenshot](scene5a_screenshot.png)
+![Scene 5 Screenshot](screenshots/scene5a_screenshot.png)
 
 In another view, the viewer has selected only the `county` of Alameda and the `year` 2020.
-![Scene 5 Screenshot](scene5b_screenshot.png)
+![Scene 5 Screenshot](screenshots/scene5b_screenshot.png)
 
 I have included pseduocode that shows how the `scene` parameter drives state in the underlying code of the visual narrative. As you can see, scene determines the values of year and county for scenes 0-4. In scene 5, the viewer can drill down as they please.
 
