@@ -30,6 +30,7 @@
     <option value="2020">2020</option>
     <option value="2021">2021</option>
     <option value="2022">2022</option>
+    <option value="2023">2023</option>
   </select>
 
   <label for="input county" style="display:none">County</label>
@@ -49,13 +50,13 @@
     narrative visualization, I created a story about public transit ridership in the California Bay Area as influenced
     by the pandemic using D3 in Javascript.<br> We will be investigating Bay Area Rapid Transit (BART) ridership's
     significant decrease due to the COVID19 pandemic. In the above graph, you will see a line for each of the 5 Bay Area
-    counties that charts ridership in millions between 2019 and March 2022.</div>
+    counties that charts ridership in millions between 2019 and April 2023.</div>
 
   <script>
     async function init() {
       //Load the data
       const data = await d3.csv(
-        'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/feat/vis-narrative/User_Created_Data/103_monthly_ridership_data.csv');
+        'https://raw.githubusercontent.com/katldewitt/data_viz_covid_bart/feat/refresh-may-2023/User_Created_Data/103_monthly_ridership_data.csv');
 
       var y = d3.scaleLinear()
         .domain([0, 9550000]) 
@@ -66,7 +67,7 @@
         return new Date(d.date);
       }
       var x = d3.scaleTime()
-        .domain([new Date("1/1/2019"), new Date("10/31/2022")])
+        .domain([new Date("1/1/2019"), new Date("3/31/2023")])
         .range([0, 600]);
 
       var x_axis = d3.axisBottom()
@@ -282,7 +283,7 @@
           })
 
         selectedCnty = selectedCnty == ".*" ? "Bay Area" : selectedCnty;
-        selectedYear = selectedYear == ".*" ? "2019-2022" : selectedYear;
+        selectedYear = selectedYear == ".*" ? "2019-2023" : selectedYear;
         titleText.transition().duration(1000).text(`${selectedCnty} Ridership in ${selectedYear}`);
       }
       //************************* End: Filter by year
@@ -314,7 +315,7 @@
           })
 
         selectedCnty = selectedCnty == ".*" ? "Bay Area" : selectedCnty;
-        selectedYear = selectedYear == ".*" ? "2019-2022" : selectedYear;
+        selectedYear = selectedYear == ".*" ? "2019-2023" : selectedYear;
         titleText.transition().duration(1000).text(`${selectedCnty} Ridership in ${selectedYear}`);
       }
       function showAllCnty() {
