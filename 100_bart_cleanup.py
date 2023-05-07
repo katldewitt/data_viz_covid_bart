@@ -5,7 +5,7 @@
 # Specifications:
 '''
 1. Read in the hourly ridership data files
-    1.1 The data for Jan 2020 - May 2022 are in three files, read each in separately then append the data sets.
+    1.1 The data for Jan 2020 - May 2023 are in four files, read each in separately then append the data sets.
 2. Roll up to the day level (grouping by station entry, station exit, date)
 3. Include the county names, the station names, by merging in additional files
     3.1 Verify via crosstabs that a station is only ever assigned to 1 county
@@ -31,7 +31,7 @@ import pandas as pd
 import io_helper as io_hlp
 
 #years to read in
-years = ["2019", "2020", "2021", "2022"]
+years = ["2019", "2020", "2021", "2022", "2023"]
 
 def rollup_data(data):
     #Rename columns
