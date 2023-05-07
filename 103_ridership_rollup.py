@@ -4,7 +4,7 @@
 # Specifications:
 '''
 1. Read in the daily ridership data file
-    1.1 The data for Jan 2020 - May 2022 were created in 100_bart_cleanup.py
+    1.1 The data for Jan 2020 - May 2023 were created in 100_bart_cleanup.py
 2. Roll up to the month level (grouping by station entry, station exit, date)
 3. Roll up to the county level (grouping by station_cnty)
 4. Save the final file as a .csv 
@@ -24,7 +24,7 @@ import pandas as pd
 import io_helper as io_hlp
 
 #years to read in
-years = ["2019", "2020", "2021", "2022"]
+years = ["2019", "2020", "2021", "2022", "2023"]
 
 def rollup_data(data):
     #Remove vars before rollup:
